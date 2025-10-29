@@ -17,6 +17,8 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -66,7 +68,10 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugin(\TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make())
+            ->plugin(FilamentMediaManagerPlugin::make())
+            ->plugin(FilamentEditProfilePlugin::make()
+            ->setIcon('heroicon-o-user')
+            ->shouldShowDeleteAccountForm(false))
             ->brandName('Forse Reklam')
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('2.5rem');
