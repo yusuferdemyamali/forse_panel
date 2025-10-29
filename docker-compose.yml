@@ -1,0 +1,58 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    container_name: forse_panel-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+      - ./php.ini:/usr/local/etc/php/php.ini
+    working_dir: /var/www/html
+    command: php-fpm
+    environment:
+      - USER_ID=${USER_ID:-1000}
+      - GROUP_ID=${GROUP_ID:-1000}
+
+  nginx:
+    image: nginx:alpine
+    container_name: forse_panel-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  # MySQL ve phpMyAdmin servisleri kaldırıldı - SQLite kullanıyoruz
+  # db:
+  #   image: mysql:8.0
+  #   container_name: forse_panel-db
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_DATABASE: laravel_db
+  #     MYSQL_ROOT_PASSWORD: laravelpassword
+  #   volumes:
+  #     - dbdata:/var/lib/mysql
+  #   ports:
+  #     - "3306:3306"
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: agency-phpmyadmin
+  #   links:
+  #     - db:db
+  #   ports:
+  #     - "8080:80"
+  #   environment:
+  #     PMA_HOST: db
+  #     PMA_PORT: 3306
+  #     MYSQL_ROOT_PASSWORD: laravelpassword
+
+# volumes:
+#   dbdata:
