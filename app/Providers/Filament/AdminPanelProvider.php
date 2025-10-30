@@ -73,7 +73,7 @@ class AdminPanelProvider extends PanelProvider
             ->setIcon('heroicon-o-user')
             ->shouldShowDeleteAccountForm(false))
             ->brandName('Forse Reklam')
-            ->brandLogo(asset('images/logo.png'))
+            ->brandLogo(asset('images/forse_logo.png'))
             ->brandLogoHeight('2.5rem');
     }
 }
