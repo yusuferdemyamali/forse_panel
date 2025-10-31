@@ -29,8 +29,7 @@ class ReferenceResource extends Resource
                 Forms\Components\Group::make()
                     ->schema([
                         Forms\Components\TextInput::make('client_name')
-                            ->label('Müşteri Adı')
-                            ->required(),
+                            ->label('Müşteri Adı'),
                         Forms\Components\TextInput::make('company')
                             ->label('Şirket')
                             ->required(),
