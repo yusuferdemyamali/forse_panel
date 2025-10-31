@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\ServiceCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Navigation\NavigationItem;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,6 +18,7 @@ class ServiceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
     protected static ?string $navigationGroup = 'Hizmet Yönetimi';
+    protected static ?string $navigationLabel = 'Hizmetler';
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -41,13 +43,16 @@ class ServiceResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table->modifyQueryUsing(fn ($query) => $query->with('serviceCategory'))->columns([
-            Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('serviceCategory.name')->label('Kategori')->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('slug')->toggleable(),
-            Tables\Columns\TextColumn::make('price')->money('TRY'),
-            Tables\Columns\IconColumn::make('is_active')->boolean(),
-        ])->defaultSort('order', 'asc');
+        return $table->modifyQueryUsing(fn ($query) => $query->with('serviceCategory'))
+            ->columns([
+                Tables\Columns\TextColumn::make('name')->searchable()->sortable()->label('İsim'),
+                Tables\Columns\TextColumn::make('serviceCategory.name')->label('Kategori')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('slug')->label('URL')->toggleable(),
+                Tables\Columns\TextColumn::make('price')->money('TRY')->label('Fiyat'),
+                Tables\Columns\IconColumn::make('is_active')->label('Durum')->boolean(),
+            ])->actions([
+                Tables\Actions\EditAction::make()->label('Düzenle'),
+            ])->defaultSort('order', 'asc');
     }
 
     public static function getPages(): array
@@ -56,6 +61,29 @@ class ServiceResource extends Resource
             'index' => Pages\ListServices::route('/'),
             'create' => Pages\CreateService::route('/create'),
             'edit' => Pages\EditService::route('/{record}/edit'),
+        ];
+    }
+
+    /**
+     * Provide multiple navigation items (liste ve yeni ekle linkleri) with Turkish labels and explicit ordering.
+     *
+     * @return array<\Filament\Navigation\NavigationItem>
+     */
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make('Tüm Hizmetler')
+                ->group(static::getNavigationGroup())
+                ->icon(static::getNavigationIcon())
+                ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.services.index'))
+                ->url(static::getNavigationUrl())
+                ->sort(1),
+
+            NavigationItem::make('Yeni Hizmet Ekle')
+                ->group(static::getNavigationGroup())
+                ->icon('heroicon-o-plus')
+                ->url(route('filament.admin.resources.services.create'))
+                ->sort(3),
         ];
     }
 }

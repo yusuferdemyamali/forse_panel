@@ -6,6 +6,7 @@ use App\Filament\Resources\ServiceCategoryResource\Pages;
 use App\Models\ServiceCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Navigation\NavigationItem;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,6 +17,7 @@ class ServiceCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
     protected static ?string $navigationGroup = 'Hizmet Yönetimi';
+    protected static ?string $navigationLabel = 'Hizmet Kategorileri';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -32,10 +34,12 @@ class ServiceCategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('name'),
-            Tables\Columns\TextColumn::make('slug'),
-            Tables\Columns\TextColumn::make('order')->sortable(),
-            Tables\Columns\IconColumn::make('is_active')->boolean(),
+            Tables\Columns\TextColumn::make('name')->label('İsim'),
+            Tables\Columns\TextColumn::make('slug')->label('URL'),
+            Tables\Columns\TextColumn::make('order')->label('Sıra')->sortable(),
+            Tables\Columns\IconColumn::make('is_active')->label('Durum')->boolean(),
+        ])->actions([
+            Tables\Actions\EditAction::make()->label('Düzenle'),
         ])->defaultSort('order', 'asc');
     }
 
@@ -45,6 +49,29 @@ class ServiceCategoryResource extends Resource
             'index' => Pages\ListServiceCategories::route('/'),
             'create' => Pages\CreateServiceCategory::route('/create'),
             'edit' => Pages\EditServiceCategory::route('/{record}/edit'),
+        ];
+    }
+
+    /**
+     * Provide navigation items for categories with Turkish labels and ordering.
+     *
+     * @return array<\Filament\Navigation\NavigationItem>
+     */
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make('Hizmet Kategorileri')
+                ->group(static::getNavigationGroup())
+                ->icon(static::getNavigationIcon())
+                ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.service-categories.index'))
+                ->url(static::getNavigationUrl())
+                ->sort(2),
+
+            NavigationItem::make('Yeni Kategori Ekle')
+                ->group(static::getNavigationGroup())
+                ->icon('heroicon-o-plus')
+                ->url(route('filament.admin.resources.service-categories.create'))
+                ->sort(4),
         ];
     }
 }
