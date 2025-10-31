@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('blog_category_id')->nullable()->constrained('blog_categories')->nullOnDelete();
             $table->string('title');
             $table->text('content');
             $table->text('excerpt')->nullable();
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->boolean('is_active')->default(true);
             $table->integer('order');
+            $table->unsignedBigInteger('views')->default(0);
             $table->timestamp('published_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
