@@ -7,6 +7,7 @@ use App\Models\BlogCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Navigation\NavigationItem;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -91,6 +92,29 @@ class BlogCategoryResource extends Resource
             'index' => Pages\ListBlogCategories::route('/'),
             'create' => Pages\CreateBlogCategory::route('/create'),
             'edit' => Pages\EditBlogCategory::route('/{record}/edit'),
+        ];
+    }
+
+    /**
+     * Provide separate navigation items for listing and creating categories.
+     *
+     * @return array<\Filament\Navigation\NavigationItem>
+     */
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make('Kategoriler')
+                ->group(static::getNavigationGroup())
+                ->icon(static::getNavigationIcon())
+                ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.blog-categories.index'))
+                ->url(static::getNavigationUrl())
+                ->sort(2),
+
+            NavigationItem::make('Yeni kategori ekle')
+                ->group(static::getNavigationGroup())
+                ->icon('heroicon-o-plus')
+                ->url(route('filament.admin.resources.blog-categories.create'))
+                ->sort(4),
         ];
     }
 }

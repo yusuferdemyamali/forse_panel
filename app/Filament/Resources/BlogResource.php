@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Navigation\NavigationItem;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Str;
@@ -289,6 +290,30 @@ class BlogResource extends Resource
             'index' => Pages\ListBlogs::route('/'),
             'create' => Pages\CreateBlog::route('/olustur'),
             'edit' => Pages\EditBlog::route('/{record}/duzenle'),
+        ];
+    }
+
+    /**
+     * Override to provide multiple navigation items for the Blog resource
+     * (listeleme ve yeni ekleme linkleri).
+     *
+     * @return array<\Filament\Navigation\NavigationItem>
+     */
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make('Tüm yazılar')
+                ->group(static::getNavigationGroup())
+                ->icon(static::getNavigationIcon())
+                ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.blogs.index'))
+                ->url(static::getNavigationUrl())
+                ->sort(1),
+
+            NavigationItem::make('Yeni yazı ekle')
+                ->group(static::getNavigationGroup())
+                ->icon('heroicon-o-plus')
+                ->url(route('filament.admin.resources.blogs.create'))
+                ->sort(3),
         ];
     }
 }
