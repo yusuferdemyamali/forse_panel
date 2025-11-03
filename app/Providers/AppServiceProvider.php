@@ -10,6 +10,7 @@ use App\Models\Gallery;
 use App\Models\PageCategory;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Redirect;
 use App\Models\Reference;
 use App\Models\SiteSetting;
 use App\Models\Team;
@@ -20,6 +21,7 @@ use App\Observers\FaqObserver;
 use App\Observers\GalleryObserver;
 use App\Observers\ProductCategoryObserver;
 use App\Observers\ProductObserver;
+use App\Observers\RedirectObserver;
 use App\Observers\ReferenceObserver;
 use App\Observers\SiteSettingObserver;
 use App\Observers\TeamObserver;
@@ -61,6 +63,9 @@ class AppServiceProvider extends ServiceProvider
         Faq::observe(FaqObserver::class);
         About::observe(AboutObserver::class);
         SiteSetting::observe(SiteSettingObserver::class);
+        
+        // SEO Redirect Observer'ı kaydet
+        Redirect::observe(RedirectObserver::class);
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch

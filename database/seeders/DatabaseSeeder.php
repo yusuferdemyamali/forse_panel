@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SiteSettingSeeder::class,
+            SeoSettingsSeeder::class,
+            RedirectSeeder::class,
         ]);
     }
 }
