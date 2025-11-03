@@ -6,6 +6,7 @@ use App\Filament\Pages\Auth\RequestPasswordReset;
 use App\Filament\Widgets\ContentDistributionChart;
 use App\Filament\Widgets\ContentGrowthChart;
 use App\Filament\Widgets\DashboardStatsOverview;
+use App\Filament\Widgets\GoogleAnalyticsStatsWidget;
 use App\Filament\Widgets\QuickActionsWidget;
 use App\Filament\Widgets\RecentBlogsTable;
 use App\Filament\Widgets\SystemInfoWidget;
@@ -47,6 +48,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 WelcomeWidget::class,
+                GoogleAnalyticsStatsWidget::class,
                 DashboardStatsOverview::class,
                 ContentGrowthChart::class,
                 RecentBlogsTable::class,
