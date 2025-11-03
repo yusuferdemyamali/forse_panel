@@ -14,6 +14,16 @@ class GoogleAnalyticsStatsWidget extends BaseWidget
 
     protected function getStats(): array
     {
+        // GA4 yapılandırması kontrolü
+        if (!config('analytics.property_id') || !file_exists(config('analytics.service_account_credentials_json'))) {
+            return [
+                Stat::make('Google Analytics', 'Yapılandırma Gerekli')
+                    ->description('GA4 kimlik bilgilerini ayarlayın. Detaylar için docs/GOOGLE_ANALYTICS_KURULUM.md dosyasına bakın.')
+                    ->descriptionIcon('heroicon-o-exclamation-triangle')
+                    ->color('warning'),
+            ];
+        }
+
         try {
             // Son 7 gün ve bir önceki 7 günlük periyotları tanımla
             $currentPeriod = Period::days(7);
@@ -175,12 +185,12 @@ class GoogleAnalyticsStatsWidget extends BaseWidget
     protected function getChangeIcon($current, $previous): string
     {
         if ($current > $previous) {
-            return 'heroicon-m-arrow-trending-up';
+            return 'heroicon-o-arrow-trending-up';
         } elseif ($current < $previous) {
-            return 'heroicon-m-arrow-trending-down';
+            return 'heroicon-o-arrow-trending-down';
         }
 
-        return 'heroicon-m-minus';
+        return 'heroicon-o-minus';
     }
 
     protected function getChangeColor($current, $previous): string
