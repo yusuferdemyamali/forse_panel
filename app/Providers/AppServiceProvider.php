@@ -78,6 +78,11 @@ class AppServiceProvider extends ServiceProvider
             // Log kaydı tutabiliriz ancak uygulama çökmesin
         }
 
+        FilamentView::registerRenderHook(
+            'panels::auth.login.form.after',
+            fn (): View => view('filament.login_extra')
+    );
+
         // Model Observer'larını kaydet - Cache invalidation için
         Blog::observe(BlogObserver::class);
         BlogCategory::observe(BlogCategoryObserver::class);
@@ -99,11 +104,6 @@ class AppServiceProvider extends ServiceProvider
             $switch
                 ->locales(['tr', 'en']); // also accepts a closure
         });
-
-        FilamentView::registerRenderHook(
-            'panels::auth.login.form.after',
-            fn (): View => view('filament.login_extra')
-        );
 
         // Navbar için kategori ve sayfaları paylaş
         ViewFacade::share('navbarCategories', PageCategory::with(['pages' => function ($query) {

@@ -10,7 +10,10 @@ class QuickActionsWidget extends Widget
 
     protected static ?int $sort = 3;
 
-    protected int|string|array $columnSpan = 2;
+    protected int|string|array $columnSpan = [
+        'md' => 2,
+        'xl' => 2,
+    ];
 
     protected function getViewData(): array
     {

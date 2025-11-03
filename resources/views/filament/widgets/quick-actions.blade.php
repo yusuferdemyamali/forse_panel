@@ -9,14 +9,14 @@
             </div>
         </x-slot>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             @foreach($actions as $action)
                 <a 
                     href="{{ $action['url'] }}" 
-                    class="group relative flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-{{ $action['color'] }}-500 hover:shadow-lg transition-all duration-200 hover:scale-105"
+                    class="group relative flex flex-col items-center p-3 md:p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-{{ $action['color'] }}-500 hover:shadow-lg transition-all duration-200 hover:scale-105"
                 >
-                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-{{ $action['color'] }}-50 dark:bg-{{ $action['color'] }}-900/20 mb-4 group-hover:bg-{{ $action['color'] }}-100 dark:group-hover:bg-{{ $action['color'] }}-900/40 transition-colors">
-                        <svg class="h-6 w-6 text-{{ $action['color'] }}-600 dark:text-{{ $action['color'] }}-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-{{ $action['color'] }}-50 dark:bg-{{ $action['color'] }}-900/20 mb-2 md:mb-4 group-hover:bg-{{ $action['color'] }}-100 dark:group-hover:bg-{{ $action['color'] }}-900/40 transition-colors">
+                        <svg class="h-5 w-5 md:h-6 md:w-6 text-{{ $action['color'] }}-600 dark:text-{{ $action['color'] }}-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             @if($action['icon'] == 'heroicon-o-document-plus')
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             @elseif($action['icon'] == 'heroicon-o-cube')
@@ -34,11 +34,11 @@
                         </svg>
                     </div>
                     
-                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 text-center">
+                    <h3 class="text-xs md:text-sm font-semibold text-gray-900 dark:text-white mb-1 md:mb-2 text-center">
                         {{ $action['label'] }}
                     </h3>
                     
-                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                    <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center hidden md:block">
                         {{ $action['description'] }}
                     </p>
                     
@@ -47,10 +47,10 @@
             @endforeach
         </div>
 
-        <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                <span>Hızlı erişim için favori işlemleriniz</span>
-                <div class="flex items-center gap-2">
+        <div class="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between text-[10px] md:text-xs text-gray-500 dark:text-gray-400 gap-2">
+                <span class="hidden md:inline">Hızlı erişim için favori işlemleriniz</span>
+                <div class="flex items-center gap-1 md:gap-2">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>

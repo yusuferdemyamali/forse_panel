@@ -16,6 +16,13 @@ class DashboardStatsOverview extends BaseWidget
 
     protected static ?string $pollingInterval = '15s';
 
+    protected int|string|array $columnSpan = 'full';
+
+    protected function getColumns(): int
+    {
+        return 3;
+    }
+
     protected function getStats(): array
     {
         $totalUsers = User::count();

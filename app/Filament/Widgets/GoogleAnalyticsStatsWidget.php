@@ -12,6 +12,13 @@ class GoogleAnalyticsStatsWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 
+    protected int|string|array $columnSpan = 'full';
+
+    protected function getColumns(): int
+    {
+        return 3;
+    }
+
     protected function getStats(): array
     {
         // GA4 yapılandırması kontrolü

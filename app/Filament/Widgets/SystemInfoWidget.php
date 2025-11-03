@@ -15,7 +15,10 @@ class SystemInfoWidget extends Widget
 
     protected static ?int $sort = 5;
 
-    protected int|string|array $columnSpan = 1;
+    protected int|string|array $columnSpan = [
+        'md' => 2,
+        'xl' => 1,
+    ];
 
     protected function getViewData(): array
     {

@@ -18,6 +18,16 @@ class ListBlogs extends ListRecords
         return [];
     }
 
+    public function getHeaderWidgetsColumns(): int | array
+    {
+        return [
+            'default' => 1,
+            'md' => 2,
+            'lg' => 3,
+            'xl' => 3,
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         return [

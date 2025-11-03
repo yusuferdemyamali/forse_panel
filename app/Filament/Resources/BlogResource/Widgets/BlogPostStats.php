@@ -13,6 +13,13 @@ class BlogPostStats extends BaseWidget
 {
     protected static ?string $pollingInterval = '30s';
 
+    protected int|string|array $columnSpan = 'full';
+
+    protected function getColumns(): int
+    {
+        return 3;
+    }
+
     protected function getStats(): array
     {
         $query = Blog::query();
