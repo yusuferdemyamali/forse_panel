@@ -50,6 +50,34 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Mail ayarlarını veritabanından yükle ve uygula
+        try {
+            $mailSettings = app(\App\Settings\MailSettings::class);
+            
+            // Ayarlar dolu ise uygula
+            if ($mailSettings->host && $mailSettings->username) {
+                config([
+                    'mail.default' => $mailSettings->mailer ?? 'smtp',
+                    'mail.mailers.smtp' => [
+                        'transport' => 'smtp',
+                        'host' => $mailSettings->host,
+                        'port' => $mailSettings->port ?? 587,
+                        'encryption' => $mailSettings->encryption ?? 'tls',
+                        'username' => $mailSettings->username,
+                        'password' => $mailSettings->password,
+                        'timeout' => null,
+                    ],
+                    'mail.from' => [
+                        'address' => $mailSettings->from_address ?? config('mail.from.address'),
+                        'name' => $mailSettings->from_name ?? config('mail.from.name'),
+                    ],
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Migration henüz çalışmamışsa veya tablo yoksa varsayılan ayarları kullan
+            // Log kaydı tutabiliriz ancak uygulama çökmesin
+        }
+
         // Model Observer'larını kaydet - Cache invalidation için
         Blog::observe(BlogObserver::class);
         BlogCategory::observe(BlogCategoryObserver::class);
