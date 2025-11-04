@@ -76,6 +76,7 @@ class AdminPanelProvider extends PanelProvider
             ->shouldShowDeleteAccountForm(false))
             ->brandName('Forse Reklam')
             ->brandLogo(asset('images/forse_logo.png'))
+            ->darkMode(false)
             ->brandLogoHeight('2.5rem');
     }
 }
