@@ -50,6 +50,52 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // ==========================================
+        // MODÜLER MİGRATİON SİSTEMİ
+        // ==========================================
+        // Core (temel) migration'lar her zaman yüklenir
+        $this->loadMigrationsFrom(database_path('migrations/core'));
+
+        // Modül migration'larını koşullu yükle
+        if (config('modules.blog')) {
+            $this->loadMigrationsFrom(database_path('migrations/blog'));
+        }
+
+        if (config('modules.references')) {
+            $this->loadMigrationsFrom(database_path('migrations/references'));
+        }
+        
+        if (config('modules.contact')) {
+            $this->loadMigrationsFrom(database_path('migrations/contact'));
+        }
+
+        if (config('modules.products')) {
+            $this->loadMigrationsFrom(database_path('migrations/products'));
+        }
+
+        if (config('modules.services')) {
+            $this->loadMigrationsFrom(database_path('migrations/services'));
+        }
+
+        if (config('modules.gallery')) {
+            $this->loadMigrationsFrom(database_path('migrations/gallery'));
+        }
+
+        if (config('modules.faq')) {
+            $this->loadMigrationsFrom(database_path('migrations/faq'));
+        }
+
+        if (config('modules.team')) {
+            $this->loadMigrationsFrom(database_path('migrations/team'));
+        }
+
+        if (config('modules.about')) {
+            $this->loadMigrationsFrom(database_path('migrations/about'));
+        }
+
+        // ==========================================
+        // MAİL AYARLARI
+        // ==========================================
         // Mail ayarlarını veritabanından yükle ve uygula
         try {
             $mailSettings = app(\App\Settings\MailSettings::class);
@@ -83,21 +129,50 @@ class AppServiceProvider extends ServiceProvider
             fn (): View => view('filament.login_extra')
     );
 
-        // Model Observer'larını kaydet - Cache invalidation için
-        Blog::observe(BlogObserver::class);
-        BlogCategory::observe(BlogCategoryObserver::class);
-        Product::observe(ProductObserver::class);
-        ProductCategory::observe(ProductCategoryObserver::class);
-
-        // Diğer modüller için observer'lar
-        Team::observe(TeamObserver::class);
-        Gallery::observe(GalleryObserver::class);
-        Reference::observe(ReferenceObserver::class);
-        Faq::observe(FaqObserver::class);
-        About::observe(AboutObserver::class);
-        SiteSetting::observe(SiteSettingObserver::class);
+        // ==========================================
+        // MODÜLER OBSERVER SİSTEMİ
+        // ==========================================
+        // Model Observer'larını koşullu kaydet - Cache invalidation için
         
-        // SEO Redirect Observer'ı kaydet
+        // Blog Modülü Observers
+        if (config('modules.blog')) {
+            Blog::observe(BlogObserver::class);
+            BlogCategory::observe(BlogCategoryObserver::class);
+        }
+
+        // Products Modülü Observers
+        if (config('modules.products')) {
+            Product::observe(ProductObserver::class);
+            ProductCategory::observe(ProductCategoryObserver::class);
+        }
+
+        // Team Modülü Observer
+        if (config('modules.team')) {
+            Team::observe(TeamObserver::class);
+        }
+
+        // Gallery Modülü Observer
+        if (config('modules.gallery')) {
+            Gallery::observe(GalleryObserver::class);
+        }
+
+        // References Modülü Observer
+        if (config('modules.references')) {
+            Reference::observe(ReferenceObserver::class);
+        }
+
+        // FAQ Modülü Observer
+        if (config('modules.faq')) {
+            Faq::observe(FaqObserver::class);
+        }
+
+        // About Modülü Observer
+        if (config('modules.about')) {
+            About::observe(AboutObserver::class);
+        }
+
+        // Core Observers (her zaman aktif)
+        SiteSetting::observe(SiteSettingObserver::class);
         Redirect::observe(RedirectObserver::class);
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {

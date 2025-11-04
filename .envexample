@@ -60,3 +60,36 @@ AWS_BUCKET=
 AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
+
+# ==========================================
+# MODÜL YÖNETİMİ
+# ==========================================
+# Modülleri açmak için 'true', kapatmak için 'false' değeri kullanın.
+# Kapatılan modüllerin migration'ları çalışmaz ve Filament panelinde görünmez.
+
+# Blog Modülü (Blog yazıları ve kategoriler)
+MODULE_BLOG_ENABLED=true
+
+# Referanslar Modülü (Referans/müşteriler)
+MODULE_REFERENCES_ENABLED=true
+
+# İletişim Modülü (İletişim mesajları)
+MODULE_CONTACT_ENABLED=true
+
+# Ürünler Modülü (Ürünler ve kategoriler)
+MODULE_PRODUCTS_ENABLED=true
+
+# Hizmetler Modülü (Hizmetler ve kategoriler)
+MODULE_SERVICES_ENABLED=true
+
+# Galeri Modülü (Fotoğraf galerisi)
+MODULE_GALLERY_ENABLED=true
+
+# SSS Modülü (Sıkça Sorulan Sorular)
+MODULE_FAQ_ENABLED=true
+
+# Ekip Modülü (Ekip üyeleri)
+MODULE_TEAM_ENABLED=true
+
+# Hakkımızda Modülü (Hakkımızda sayfası)
+MODULE_ABOUT_ENABLED=true

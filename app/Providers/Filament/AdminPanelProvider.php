@@ -27,10 +27,160 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+// ==========================================
+// MODÜLER SİSTEM İÇİN RESOURCE IMPORT'LARI
+// ==========================================
+use App\Filament\Resources\{
+    // Core Resources (Her zaman aktif)
+    PageResource,
+    PageCategoryResource,
+    SiteSettingResource,
+    CompanySettingResource,
+    RedirectResource,
+    
+    // Blog Modülü
+    BlogResource,
+    BlogCategoryResource,
+    
+    // Ürünler Modülü
+    ProductResource,
+    ProductCategoryResource,
+    
+    // Hizmetler Modülü
+    ServiceResource,
+    ServiceCategoryResource,
+    
+    // Kurumsal Modülü
+    AboutResource,
+    ReferenceResource,
+    TeamResource,
+    FaqResource,
+    
+    // Galeri Modülü
+    GalleryResource,
+    
+    // İletişim Modülü
+    ContactMessageResource,
+};
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        // ==========================================
+        // DİNAMİK MODÜLER SİSTEM
+        // ==========================================
+        
+        $resources = [];
+        $widgets = [];
+        $navigationGroups = [];
+
+        // ==========================================
+        // CORE RESOURCES (Her zaman aktif)
+        // ==========================================
+        $resources[] = PageResource::class;
+        $resources[] = PageCategoryResource::class;
+        $resources[] = SiteSettingResource::class;
+        $resources[] = CompanySettingResource::class;
+        $resources[] = RedirectResource::class;
+
+        // ==========================================
+        // CORE WIDGETS (Her zaman aktif)
+        // ==========================================
+        $widgets[] = WelcomeWidget::class;
+        $widgets[] = GoogleAnalyticsStatsWidget::class;
+        $widgets[] = DashboardStatsOverview::class;
+        $widgets[] = QuickActionsWidget::class;
+        $widgets[] = SystemInfoWidget::class;
+
+        // ==========================================
+        // CORE NAVIGATION GROUPS (Her zaman aktif)
+        // ==========================================
+        $navigationGroups[] = 'İçerik Yönetimi';
+        $navigationGroups[] = 'Ayarlar';
+
+        // ==========================================
+        // BLOG MODÜLÜ
+        // ==========================================
+        if (config('modules.blog')) {
+            $resources[] = BlogResource::class;
+            $resources[] = BlogCategoryResource::class;
+            
+            $widgets[] = ContentGrowthChart::class;
+            $widgets[] = RecentBlogsTable::class;
+            $widgets[] = ContentDistributionChart::class;
+            
+            $navigationGroups[] = 'Blog';
+        }
+
+        // ==========================================
+        // ÜRÜNLER MODÜLÜ
+        // ==========================================
+        if (config('modules.products')) {
+            $resources[] = ProductResource::class;
+            $resources[] = ProductCategoryResource::class;
+            
+            $navigationGroups[] = 'Ürünler';
+        }
+
+        // ==========================================
+        // HİZMETLER MODÜLÜ
+        // ==========================================
+        if (config('modules.services')) {
+            $resources[] = ServiceResource::class;
+            $resources[] = ServiceCategoryResource::class;
+            
+            $navigationGroups[] = 'Hizmetler';
+        }
+
+        // ==========================================
+        // KURUMSAL MODÜLLER (About, References, Team, FAQ)
+        // ==========================================
+        $hasKurumsalModule = false;
+        
+        if (config('modules.about')) {
+            $resources[] = AboutResource::class;
+            $hasKurumsalModule = true;
+        }
+
+        if (config('modules.references')) {
+            $resources[] = ReferenceResource::class;
+            $hasKurumsalModule = true;
+        }
+
+        if (config('modules.team')) {
+            $resources[] = TeamResource::class;
+            $hasKurumsalModule = true;
+        }
+
+        if (config('modules.faq')) {
+            $resources[] = FaqResource::class;
+            $hasKurumsalModule = true;
+        }
+
+        if ($hasKurumsalModule) {
+            $navigationGroups[] = 'Kurumsal';
+        }
+
+        // ==========================================
+        // GALERİ MODÜLÜ
+        // ==========================================
+        if (config('modules.gallery')) {
+            $resources[] = GalleryResource::class;
+        }
+
+        // ==========================================
+        // İLETİŞİM MODÜLÜ
+        // ==========================================
+        if (config('modules.contact')) {
+            $resources[] = ContactMessageResource::class;
+            
+            $navigationGroups[] = 'İletişim';
+        }
+
+        // ==========================================
+        // PANEL YAPISI
+        // ==========================================
         return $panel
             ->default()
             ->id('admin')
@@ -40,22 +190,17 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => 'rgb(34,193,195)',
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            // discoverResources KALDIRILDI - Manuel yükleme yapıyoruz
+            ->resources($resources)
+            
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 \App\Filament\Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                WelcomeWidget::class,
-                GoogleAnalyticsStatsWidget::class,
-                DashboardStatsOverview::class,
-                ContentGrowthChart::class,
-                RecentBlogsTable::class,
-                QuickActionsWidget::class,
-                ContentDistributionChart::class,
-                SystemInfoWidget::class,
-            ])
+            
+            // discoverWidgets KALDIRILDI - Manuel yükleme yapıyoruz
+            ->widgets($widgets)
+            
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -72,21 +217,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugin(FilamentMediaManagerPlugin::make())
             ->plugin(FilamentEditProfilePlugin::make()
-            ->setIcon('heroicon-o-user')
-            ->shouldShowDeleteAccountForm(false))
+                ->setIcon('heroicon-o-user')
+                ->shouldShowDeleteAccountForm(false))
             ->brandName('Forse Reklam')
             ->brandLogo(asset('images/forse_logo.png'))
             ->darkMode(false)
             ->brandLogoHeight('2.5rem')
             ->globalSearch(false)
-            ->navigationGroups([
-                'İçerik Yönetimi',
-                'Blog',
-                'Ürünler',
-                'Hizmetler',
-                'Kurumsal',
-                'İletişim',
-                'Ayarlar',
-            ]);
+            ->navigationGroups($navigationGroups);
     }
 }
