@@ -6,7 +6,9 @@ use Filament\Pages\Dashboard as BaseDashboard;
 
 class Dashboard extends BaseDashboard
 {
-    protected static ?string $navigationLabel = 'Dashboard';
+    protected static ?string $navigationLabel = 'Genel Bakış';
+    
+    protected static ?string $title = '';
 
     public function getColumns(): int | string | array
     {

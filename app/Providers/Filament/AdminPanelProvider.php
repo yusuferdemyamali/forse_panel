@@ -77,6 +77,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Forse Reklam')
             ->brandLogo(asset('images/forse_logo.png'))
             ->darkMode(false)
-            ->brandLogoHeight('2.5rem');
+            ->brandLogoHeight('2.5rem')
+            ->globalSearch(false);
     }
 }
