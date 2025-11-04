@@ -16,13 +16,13 @@ class RedirectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-right-circle';
 
-    protected static ?string $navigationGroup = 'Site Yönetimi';
+    protected static ?string $navigationGroup = 'Ayarlar';
 
     protected static ?string $navigationLabel = 'Yönlendirmeler';
 
     protected static ?string $pluralModelLabel = 'Yönlendirmeler';
 
-    protected static ?int $navigationSort = 8;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

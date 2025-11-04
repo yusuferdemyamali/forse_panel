@@ -16,8 +16,8 @@ class ServiceCategoryResource extends Resource
     protected static ?string $model = ServiceCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
-    protected static ?string $navigationGroup = 'Hizmet Yönetimi';
-    protected static ?string $navigationLabel = 'Hizmet Kategorileri';
+    protected static ?string $navigationGroup = 'Hizmetler';
+    protected static ?string $navigationLabel = 'Kategoriler';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form

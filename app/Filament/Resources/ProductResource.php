@@ -33,7 +33,7 @@ class ProductResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Ürünler';
 
-    protected static ?string $navigationGroup = 'Ürün';
+    protected static ?string $navigationGroup = 'Ürünler';
 
     protected static ?int $navigationSort = 1;
 

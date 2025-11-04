@@ -22,7 +22,7 @@ class TeamResource extends Resource
 
     protected static ?string $navigationLabel = 'Ekip Üyeleri';
 
-    protected static ?string $navigationGroup = 'Sayfalar';
+    protected static ?string $navigationGroup = 'Kurumsal';
 
     protected static ?int $navigationSort = 3;
 

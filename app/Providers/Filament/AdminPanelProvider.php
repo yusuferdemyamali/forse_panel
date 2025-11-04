@@ -78,6 +78,15 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/forse_logo.png'))
             ->darkMode(false)
             ->brandLogoHeight('2.5rem')
-            ->globalSearch(false);
+            ->globalSearch(false)
+            ->navigationGroups([
+                'İçerik Yönetimi',
+                'Blog',
+                'Ürünler',
+                'Hizmetler',
+                'Kurumsal',
+                'İletişim',
+                'Ayarlar',
+            ]);
     }
 }

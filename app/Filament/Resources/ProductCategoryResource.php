@@ -30,7 +30,7 @@ class ProductCategoryResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Kategoriler';
 
-    protected static ?string $navigationGroup = 'Ürün';
+    protected static ?string $navigationGroup = 'Ürünler';
 
     protected static ?int $navigationSort = 2;
 

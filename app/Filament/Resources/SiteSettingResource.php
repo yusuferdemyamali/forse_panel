@@ -16,9 +16,9 @@ class SiteSettingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static ?string $navigationGroup = 'Site Yönetimi';
+    protected static ?string $navigationGroup = 'Ayarlar';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'site_name';
 

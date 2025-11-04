@@ -18,7 +18,7 @@ class ReferenceResource extends Resource
 
     protected static ?string $navigationLabel = 'Referanslar';
 
-    protected static ?string $navigationGroup = 'Sayfalar';
+    protected static ?string $navigationGroup = 'Kurumsal';
 
     protected static ?int $navigationSort = 2;
 

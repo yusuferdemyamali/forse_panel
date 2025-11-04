@@ -14,11 +14,11 @@ class CompanySettingResource extends Resource
 {
     protected static ?string $model = CompanySetting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
-    protected static ?string $navigationGroup = 'Site Yönetimi';
+    protected static ?string $navigationGroup = 'Ayarlar';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'site_name';
 
