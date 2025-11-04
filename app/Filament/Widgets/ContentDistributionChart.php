@@ -20,28 +20,45 @@ class ContentDistributionChart extends ChartWidget
 
     protected function getData(): array
     {
-        $blogCount = Blog::count();
-        $productCount = Product::count();
-        $referenceCount = Reference::count();
+        $data = [];
+        $labels = [];
+        $backgroundColors = [];
+        $borderColors = [];
+
+        // Blog Modülü Aktifse
+        if (config('modules.blog')) {
+            $data[] = Blog::count();
+            $labels[] = 'Blog Yazıları';
+            $backgroundColors[] = 'rgb(59, 130, 246)';  // Blue
+            $borderColors[] = 'rgb(59, 130, 246)';
+        }
+
+        // Products Modülü Aktifse
+        if (config('modules.products')) {
+            $data[] = Product::count();
+            $labels[] = 'Ürünler';
+            $backgroundColors[] = 'rgb(245, 158, 11)';  // Yellow/Orange
+            $borderColors[] = 'rgb(245, 158, 11)';
+        }
+
+        // References Modülü Aktifse
+        if (config('modules.references')) {
+            $data[] = Reference::count();
+            $labels[] = 'Referanslar';
+            $backgroundColors[] = 'rgb(34, 197, 94)';  // Green
+            $borderColors[] = 'rgb(34, 197, 94)';
+        }
 
         return [
             'datasets' => [
                 [
-                    'data' => [$blogCount, $productCount, $referenceCount],
-                    'backgroundColor' => [
-                        'rgb(59, 130, 246)',  // Blue
-                        'rgb(245, 158, 11)',  // Yellow/Orange
-                        'rgb(34, 197, 94)',   // Green
-                    ],
-                    'borderColor' => [
-                        'rgb(59, 130, 246)',
-                        'rgb(245, 158, 11)',
-                        'rgb(34, 197, 94)',
-                    ],
+                    'data' => $data,
+                    'backgroundColor' => $backgroundColors,
+                    'borderColor' => $borderColors,
                     'borderWidth' => 2,
                 ],
             ],
-            'labels' => ['Blog Yazıları', 'Ürünler', 'Referanslar'],
+            'labels' => $labels,
         ];
     }
 

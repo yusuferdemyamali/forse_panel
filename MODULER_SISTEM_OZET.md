@@ -87,8 +87,9 @@ database/migrations/
 | 7 | **SSS** | `modules.faq` | Kurumsal | FaqResource |
 | 8 | **Ekip** | `modules.team` | Kurumsal | TeamResource |
 | 9 | **Hakkımızda** | `modules.about` | Kurumsal | AboutResource |
+| 10 | **Sayfalar** | `modules.pages` | İçerik Yönetimi | PageResource, PageCategoryResource |
 
-**Not:** Core modüller (Pages, Settings, Redirects) her zaman aktiftir.
+**Not:** Core modüller (Settings, Redirects, Users, Media) her zaman aktiftir.
 
 ---
 

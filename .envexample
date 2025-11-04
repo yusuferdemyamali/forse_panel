@@ -93,3 +93,6 @@ MODULE_TEAM_ENABLED=true
 
 # Hakkımızda Modülü (Hakkımızda sayfası)
 MODULE_ABOUT_ENABLED=true
+
+# Sayfalar Modülü (Dinamik sayfalar ve kategoriler - İçerik Yönetimi)
+MODULE_PAGES_ENABLED=true

@@ -28,6 +28,7 @@ MODULE_GALLERY_ENABLED=true
 MODULE_FAQ_ENABLED=true
 MODULE_TEAM_ENABLED=true
 MODULE_ABOUT_ENABLED=true
+MODULE_PAGES_ENABLED=true
 ```
 
 ### 2. Modülü Kapat
@@ -69,7 +70,7 @@ Her modül için ayrı migration klasörü oluşturuldu:
 
 ```
 database/migrations/
-├── core/           # Temel sistemin migration'ları (her zaman aktif)
+├── core/           # Temel sistemin migration'ları (users, settings, redirects - her zaman aktif)
 ├── blog/           # Blog modülü
 ├── references/     # Referanslar modülü
 ├── contact/        # İletişim modülü
@@ -78,7 +79,8 @@ database/migrations/
 ├── gallery/        # Galeri modülü
 ├── faq/            # SSS modülü
 ├── team/           # Ekip modülü
-└── about/          # Hakkımızda modülü
+├── about/          # Hakkımızda modülü
+└── pages/          # Sayfalar modülü (İçerik Yönetimi)
 ```
 
 ## 🎨 Mevcut Modüller
@@ -94,6 +96,7 @@ database/migrations/
 | **FAQ** | Sıkça Sorulan Sorular | `modules.faq` |
 | **Team** | Ekip üyeleri | `modules.team` |
 | **About** | Hakkımızda sayfası | `modules.about` |
+| **Pages** | Dinamik sayfalar ve kategoriler | `modules.pages` |
 
 ## 🔍 Modül Durumunu Kontrol Etme
 
@@ -158,10 +161,12 @@ MODULE_YENI_MODUL_ENABLED=true
 
 ## ⚠️ Önemli Notlar
 
-1. **Core modülü her zaman aktiftir** ve kapatılamaz (users, settings, pages vb.)
-2. **Kurumsal grubu** (About, References, Team, FAQ) en az bir modül aktifse görünür
-3. **Widget'lar** modüllere göre dinamik olarak yüklenir
-4. **Observer'lar** yalnızca aktif modüller için çalışır
+1. **Core modülü her zaman aktiftir** ve kapatılamaz (users, settings, redirects vb.)
+2. **İçerik Yönetimi modülü** (Pages) artık `.env` dosyasından kapatılabilir
+3. **Kurumsal grubu** (About, References, Team, FAQ) en az bir modül aktifse görünür
+4. **Widget'lar** modüllere göre dinamik olarak yüklenir ve içerikleri koşullu oluşturulur
+5. **Observer'lar** yalnızca aktif modüller için çalışır
+6. **Dashboard Widget'ları** (QuickActionsWidget, ContentGrowthChart, ContentDistributionChart, DashboardStatsOverview) modül durumuna göre otomatik olarak güncellenir
 
 ## 🚀 Örnek Senaryolar
 

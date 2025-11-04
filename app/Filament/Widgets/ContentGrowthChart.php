@@ -19,45 +19,63 @@ class ContentGrowthChart extends ChartWidget
     protected function getData(): array
     {
         $months = collect();
-        $blogData = collect();
-        $productData = collect();
+        $datasets = [];
 
         // Son 6 ayın verilerini al
         for ($i = 5; $i >= 0; $i--) {
             $month = now()->subMonths($i);
             $monthName = $month->format('M Y');
             $months->push($monthName);
+        }
 
-            $blogsCount = Blog::whereMonth('created_at', $month->month)
-                ->whereYear('created_at', $month->year)
-                ->count();
-            $blogData->push($blogsCount);
+        // Blog Modülü Aktifse
+        if (config('modules.blog')) {
+            $blogData = collect();
+            
+            for ($i = 5; $i >= 0; $i--) {
+                $month = now()->subMonths($i);
+                
+                $blogsCount = Blog::whereMonth('created_at', $month->month)
+                    ->whereYear('created_at', $month->year)
+                    ->count();
+                $blogData->push($blogsCount);
+            }
 
-            $productsCount = Product::whereMonth('created_at', $month->month)
-                ->whereYear('created_at', $month->year)
-                ->count();
-            $productData->push($productsCount);
+            $datasets[] = [
+                'label' => 'Blog Yazıları',
+                'data' => $blogData->toArray(),
+                'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
+                'borderColor' => 'rgb(59, 130, 246)',
+                'borderWidth' => 2,
+                'fill' => true,
+            ];
+        }
+
+        // Products Modülü Aktifse
+        if (config('modules.products')) {
+            $productData = collect();
+            
+            for ($i = 5; $i >= 0; $i--) {
+                $month = now()->subMonths($i);
+                
+                $productsCount = Product::whereMonth('created_at', $month->month)
+                    ->whereYear('created_at', $month->year)
+                    ->count();
+                $productData->push($productsCount);
+            }
+
+            $datasets[] = [
+                'label' => 'Ürünler',
+                'data' => $productData->toArray(),
+                'backgroundColor' => 'rgba(245, 158, 11, 0.1)',
+                'borderColor' => 'rgb(245, 158, 11)',
+                'borderWidth' => 2,
+                'fill' => true,
+            ];
         }
 
         return [
-            'datasets' => [
-                [
-                    'label' => 'Blog Yazıları',
-                    'data' => $blogData->toArray(),
-                    'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
-                    'borderColor' => 'rgb(59, 130, 246)',
-                    'borderWidth' => 2,
-                    'fill' => true,
-                ],
-                [
-                    'label' => 'Ürünler',
-                    'data' => $productData->toArray(),
-                    'backgroundColor' => 'rgba(245, 158, 11, 0.1)',
-                    'borderColor' => 'rgb(245, 158, 11)',
-                    'borderWidth' => 2,
-                    'fill' => true,
-                ],
-            ],
+            'datasets' => $datasets,
             'labels' => $months->toArray(),
         ];
     }

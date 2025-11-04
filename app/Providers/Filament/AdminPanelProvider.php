@@ -78,8 +78,6 @@ class AdminPanelProvider extends PanelProvider
         // ==========================================
         // CORE RESOURCES (Her zaman aktif)
         // ==========================================
-        $resources[] = PageResource::class;
-        $resources[] = PageCategoryResource::class;
         $resources[] = SiteSettingResource::class;
         $resources[] = CompanySettingResource::class;
         $resources[] = RedirectResource::class;
@@ -94,10 +92,26 @@ class AdminPanelProvider extends PanelProvider
         $widgets[] = SystemInfoWidget::class;
 
         // ==========================================
-        // CORE NAVIGATION GROUPS (Her zaman aktif)
+        // NAVIGATION GROUPS - Sabit Sıralama
         // ==========================================
-        $navigationGroups[] = 'İçerik Yönetimi';
-        $navigationGroups[] = 'Ayarlar';
+        // Tüm grupları önceden tanımla, aktif olmayanlar otomatik gizlenir
+        $allNavigationGroups = [
+            'İçerik Yönetimi',
+            'Blog',
+            'Ürünler',
+            'Hizmetler',
+            'Kurumsal',
+            'İletişim',
+            'Ayarlar',
+        ];
+
+        // ==========================================
+        // SAYFALAR MODÜLÜ (İçerik Yönetimi)
+        // ==========================================
+        if (config('modules.pages')) {
+            $resources[] = PageResource::class;
+            $resources[] = PageCategoryResource::class;
+        }
 
         // ==========================================
         // BLOG MODÜLÜ
@@ -109,8 +123,6 @@ class AdminPanelProvider extends PanelProvider
             $widgets[] = ContentGrowthChart::class;
             $widgets[] = RecentBlogsTable::class;
             $widgets[] = ContentDistributionChart::class;
-            
-            $navigationGroups[] = 'Blog';
         }
 
         // ==========================================
@@ -119,8 +131,6 @@ class AdminPanelProvider extends PanelProvider
         if (config('modules.products')) {
             $resources[] = ProductResource::class;
             $resources[] = ProductCategoryResource::class;
-            
-            $navigationGroups[] = 'Ürünler';
         }
 
         // ==========================================
@@ -129,37 +139,25 @@ class AdminPanelProvider extends PanelProvider
         if (config('modules.services')) {
             $resources[] = ServiceResource::class;
             $resources[] = ServiceCategoryResource::class;
-            
-            $navigationGroups[] = 'Hizmetler';
         }
 
         // ==========================================
         // KURUMSAL MODÜLLER (About, References, Team, FAQ)
         // ==========================================
-        $hasKurumsalModule = false;
-        
         if (config('modules.about')) {
             $resources[] = AboutResource::class;
-            $hasKurumsalModule = true;
         }
 
         if (config('modules.references')) {
             $resources[] = ReferenceResource::class;
-            $hasKurumsalModule = true;
         }
 
         if (config('modules.team')) {
             $resources[] = TeamResource::class;
-            $hasKurumsalModule = true;
         }
 
         if (config('modules.faq')) {
             $resources[] = FaqResource::class;
-            $hasKurumsalModule = true;
-        }
-
-        if ($hasKurumsalModule) {
-            $navigationGroups[] = 'Kurumsal';
         }
 
         // ==========================================
@@ -174,8 +172,6 @@ class AdminPanelProvider extends PanelProvider
         // ==========================================
         if (config('modules.contact')) {
             $resources[] = ContactMessageResource::class;
-            
-            $navigationGroups[] = 'İletişim';
         }
 
         // ==========================================
@@ -198,7 +194,9 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Pages\Dashboard::class,
             ])
             
-            // discoverWidgets KALDIRILDI - Manuel yükleme yapıyoruz
+            // Resource widget'larını otomatik keşfet (BlogPostStats gibi)
+            ->discoverWidgets(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            // Dashboard widget'larını manuel yükle (modüler sistem için)
             ->widgets($widgets)
             
             ->middleware([
@@ -224,6 +222,6 @@ class AdminPanelProvider extends PanelProvider
             ->darkMode(false)
             ->brandLogoHeight('2.5rem')
             ->globalSearch(false)
-            ->navigationGroups($navigationGroups);
+            ->navigationGroups($allNavigationGroups);
     }
 }

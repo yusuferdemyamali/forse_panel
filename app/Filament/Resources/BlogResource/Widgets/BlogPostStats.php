@@ -11,6 +11,9 @@ use Illuminate\Support\Carbon;
 
 class BlogPostStats extends BaseWidget
 {
+    // Dashboard'da görünmesin, sadece BlogResource içinde kullanılsın
+    protected static bool $isDiscovered = false;
+    
     protected static ?string $pollingInterval = '30s';
 
     protected int|string|array $columnSpan = 'full';

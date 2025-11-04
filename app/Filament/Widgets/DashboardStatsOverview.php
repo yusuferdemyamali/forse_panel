@@ -25,62 +25,95 @@ class DashboardStatsOverview extends BaseWidget
 
     protected function getStats(): array
     {
-        $totalUsers = User::count();
-        $totalBlogs = Blog::count();
-        $activeBlogsCount = Blog::where('is_active', true)->count();
-        $totalProducts = Product::count();
-        $activeProductsCount = Product::where('is_active', true)->count();
-        $totalReferences = Reference::count();
-        $totalTeam = Team::count();
+        $stats = [];
+        $totalContent = 0;
+        $newContentThisMonth = 0;
+        $contentDescription = [];
 
-        // Bu ay eklenen blog sayısı
-        $blogsThisMonth = Blog::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
+        // Blog Modülü Aktifse
+        if (config('modules.blog')) {
+            $totalBlogs = Blog::count();
+            $activeBlogsCount = Blog::where('is_active', true)->count();
+            $blogsThisMonth = Blog::whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
 
-        // Bu ay eklenen ürün sayısı
-        $productsThisMonth = Product::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
+            $totalContent += $totalBlogs;
+            $newContentThisMonth += $blogsThisMonth;
+            $contentDescription[] = 'Blog';
 
-        return [
-            Stat::make('Toplam İçerik Sayısı', $totalBlogs + $totalProducts + $totalReferences)
-                ->description('Blog, Ürün ve Referanslar')
-                ->descriptionIcon('heroicon-m-document-duplicate')
-                ->color('primary')
-                ->chart([7, 12, 18, 22, 15, 28, $totalBlogs + $totalProducts + $totalReferences]),
-
-            Stat::make('Aktif Blog Yazıları', $activeBlogsCount)
+            $stats[] = Stat::make('Aktif Blog Yazıları', $activeBlogsCount)
                 ->description("Toplam {$totalBlogs} yazıdan")
                 ->descriptionIcon('heroicon-m-newspaper')
                 ->color('success')
                 ->url(route('filament.admin.resources.blogs.index'))
-                ->chart([3, 7, $activeBlogsCount]),
+                ->chart([3, 7, $activeBlogsCount]);
+        }
 
-            Stat::make('Ürün Kataloğu', $activeProductsCount)
+        // Products Modülü Aktifse
+        if (config('modules.products')) {
+            $totalProducts = Product::count();
+            $activeProductsCount = Product::where('is_active', true)->count();
+            $productsThisMonth = Product::whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
+
+            $totalContent += $totalProducts;
+            $newContentThisMonth += $productsThisMonth;
+            $contentDescription[] = 'Ürün';
+
+            $stats[] = Stat::make('Ürün Kataloğu', $activeProductsCount)
                 ->description("Toplam {$totalProducts} üründen")
                 ->descriptionIcon('heroicon-m-cube')
                 ->color('warning')
                 ->url(route('filament.admin.resources.products.index'))
-                ->chart([1, 3, $activeProductsCount]),
+                ->chart([1, 3, $activeProductsCount]);
+        }
 
-            Stat::make('Ekip Üyeleri', $totalTeam)
-                ->description('Aktif ekip üyesi')
-                ->descriptionIcon('heroicon-m-users')
-                ->color('info')
-                ->url(route('filament.admin.resources.teams.index')),
+        // References Modülü Aktifse
+        if (config('modules.references')) {
+            $totalReferences = Reference::count();
+            $totalContent += $totalReferences;
+            $contentDescription[] = 'Referans';
 
-            Stat::make('Müşteri Referansları', $totalReferences)
+            $stats[] = Stat::make('Müşteri Referansları', $totalReferences)
                 ->description('Onaylanmış referans')
                 ->descriptionIcon('heroicon-m-star')
                 ->color('gray')
-                ->url(route('filament.admin.resources.references.index')),
+                ->url(route('filament.admin.resources.references.index'));
+        }
 
-            Stat::make('Bu Ayki Yeni İçerik', $blogsThisMonth + $productsThisMonth)
-                ->description("{$blogsThisMonth} blog, {$productsThisMonth} ürün")
+        // Team Modülü Aktifse
+        if (config('modules.team')) {
+            $totalTeam = Team::count();
+
+            $stats[] = Stat::make('Ekip Üyeleri', $totalTeam)
+                ->description('Aktif ekip üyesi')
+                ->descriptionIcon('heroicon-m-users')
+                ->color('info')
+                ->url(route('filament.admin.resources.teams.index'));
+        }
+
+        // Toplam İçerik Kartı (En başa ekle)
+        if ($totalContent > 0) {
+            array_unshift($stats, 
+                Stat::make('Toplam İçerik Sayısı', $totalContent)
+                    ->description(implode(', ', $contentDescription))
+                    ->descriptionIcon('heroicon-m-document-duplicate')
+                    ->color('primary')
+                    ->chart([7, 12, 18, 22, 15, 28, $totalContent])
+            );
+        }
+
+        // Bu Ayki Yeni İçerik Kartı
+        if ($newContentThisMonth > 0 || (config('modules.blog') || config('modules.products'))) {
+            $stats[] = Stat::make('Bu Ayki Yeni İçerik', $newContentThisMonth)
+                ->description("Yeni içerik eklendi")
                 ->descriptionIcon('heroicon-m-plus-circle')
-                ->color($blogsThisMonth + $productsThisMonth > 0 ? 'success' : 'danger')
-                ->chart([2, 4, 6, $blogsThisMonth + $productsThisMonth]),
-        ];
+                ->color($newContentThisMonth > 0 ? 'success' : 'danger')
+                ->chart([2, 4, 6, $newContentThisMonth]);
+        }
+
+        return $stats;
     }
 }

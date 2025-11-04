@@ -93,6 +93,10 @@ class AppServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom(database_path('migrations/about'));
         }
 
+        if (config('modules.pages')) {
+            $this->loadMigrationsFrom(database_path('migrations/pages'));
+        }
+
         // ==========================================
         // MAİL AYARLARI
         // ==========================================
@@ -180,30 +184,35 @@ class AppServiceProvider extends ServiceProvider
                 ->locales(['tr']); // also accepts a closure
         });
 
-        // Navbar için kategori ve sayfaları paylaş
-        ViewFacade::share('navbarCategories', PageCategory::with(['pages' => function ($query) {
-                $query->where('is_published', true)->orderBy('order');
-            }])
-            ->where('is_active', true)
-            ->orderBy('order')
-            ->get()
-        );
+        // ==========================================
+        // PAGES MODÜLÜ - VIEW SHARING & NAVIGATION
+        // ==========================================
+        if (config('modules.pages')) {
+            // Navbar için kategori ve sayfaları paylaş
+            ViewFacade::share('navbarCategories', PageCategory::with(['pages' => function ($query) {
+                    $query->where('is_published', true)->orderBy('order');
+                }])
+                ->where('is_active', true)
+                ->orderBy('order')
+                ->get()
+            );
 
-        // Filament sidebar için özel navigasyon öğeleri (sıralamayı burada belirtiyoruz)
-        // Sıralama: 1 = Tüm Sayfalar (PageResource), 2 = Sayfa Kategorileri (PageCategoryResource)
-        // 3 = Yeni Sayfa Ekle, 4 = Kategori Ekle
-        Filament::registerNavigationItems([
-            NavigationItem::make('Yeni Sayfa Ekle')
-                ->group('İçerik Yönetimi')
-                ->url(fn (): string => PageResource::getUrl('create'))
-                ->sort(3)
-                ->icon('heroicon-o-plus'),
+            // Filament sidebar için özel navigasyon öğeleri
+            // Sıralama: 1 = Tüm Sayfalar (PageResource), 2 = Sayfa Kategorileri (PageCategoryResource)
+            // 3 = Yeni Sayfa Ekle, 4 = Kategori Ekle
+            Filament::registerNavigationItems([
+                NavigationItem::make('Yeni Sayfa Ekle')
+                    ->group('İçerik Yönetimi')
+                    ->url(fn (): string => PageResource::getUrl('create'))
+                    ->sort(3)
+                    ->icon('heroicon-o-plus'),
 
-            NavigationItem::make('Kategori Ekle')
-                ->group('İçerik Yönetimi')
-                ->url(fn (): string => PageCategoryResource::getUrl('create'))
-                ->sort(4)
-                ->icon('heroicon-o-plus'),
-        ]);
+                NavigationItem::make('Kategori Ekle')
+                    ->group('İçerik Yönetimi')
+                    ->url(fn (): string => PageCategoryResource::getUrl('create'))
+                    ->sort(4)
+                    ->icon('heroicon-o-plus'),
+            ]);
+        }
     }
 }

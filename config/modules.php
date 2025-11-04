@@ -34,4 +34,6 @@ return [
 
     'about' => env('MODULE_ABOUT_ENABLED', true),
 
+    'pages' => env('MODULE_PAGES_ENABLED', true),
+
 ];
