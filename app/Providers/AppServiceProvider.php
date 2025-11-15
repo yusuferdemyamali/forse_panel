@@ -189,13 +189,19 @@ class AppServiceProvider extends ServiceProvider
         // ==========================================
         if (config('modules.pages')) {
             // Navbar için kategori ve sayfaları paylaş
-            ViewFacade::share('navbarCategories', PageCategory::with(['pages' => function ($query) {
-                    $query->where('is_published', true)->orderBy('order');
-                }])
-                ->where('is_active', true)
-                ->orderBy('order')
-                ->get()
-            );
+            // Try-catch ile migration henüz çalışmamışsa hata vermesin
+            try {
+                ViewFacade::share('navbarCategories', PageCategory::with(['pages' => function ($query) {
+                        $query->where('is_published', true)->orderBy('order');
+                    }])
+                    ->where('is_active', true)
+                    ->orderBy('order')
+                    ->get()
+                );
+            } catch (\Exception $e) {
+                // Migration henüz çalışmamışsa veya tablo yoksa boş collection paylaş
+                ViewFacade::share('navbarCategories', collect([]));
+            }
 
             // Filament sidebar için özel navigasyon öğeleri
             // Sıralama: 1 = Tüm Sayfalar (PageResource), 2 = Sayfa Kategorileri (PageCategoryResource)
