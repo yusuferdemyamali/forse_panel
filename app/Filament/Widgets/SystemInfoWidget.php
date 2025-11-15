@@ -42,10 +42,21 @@ class SystemInfoWidget extends Widget
     private function getContentAddedToday(): int
     {
         $today = Carbon::today();
+        $count = 0;
 
-        return Blog::whereDate('created_at', $today)->count() +
-               Product::whereDate('created_at', $today)->count() +
-               Reference::whereDate('created_at', $today)->count();
+        if (config('modules.blog')) {
+            $count += Blog::whereDate('created_at', $today)->count();
+        }
+
+        if (config('modules.products')) {
+            $count += Product::whereDate('created_at', $today)->count();
+        }
+
+        if (config('modules.references')) {
+            $count += Reference::whereDate('created_at', $today)->count();
+        }
+
+        return $count;
     }
 
     private function getServerUptime(): string
