@@ -213,10 +213,13 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugin(FilamentMediaManagerPlugin::make())
-            ->plugin(FilamentEditProfilePlugin::make()
-                ->setIcon('heroicon-o-user')
-                ->shouldShowDeleteAccountForm(false))
+            // Media Manager plugin'i sadece Gallery modülü aktifse yükle
+            ->plugins(array_filter([
+                config('modules.gallery') ? FilamentMediaManagerPlugin::make() : null,
+                FilamentEditProfilePlugin::make()
+                    ->setIcon('heroicon-o-user')
+                    ->shouldShowDeleteAccountForm(false),
+            ]))
             ->brandName('Forse Reklam')
             ->brandLogo(asset('images/forse_logo.png'))
             ->darkMode(false)
