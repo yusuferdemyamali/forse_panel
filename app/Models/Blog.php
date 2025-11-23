@@ -29,12 +29,28 @@ class Blog extends Model implements HasMedia
         'order',
         'published_at',
         'blog_category_id',
+        // SEO Fields
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'focus_keyword',
+        'canonical_url',
+        'og_title',
+        'og_description',
+        'og_image',
+        'twitter_title',
+        'twitter_description',
+        'twitter_image',
+        'index_page',
+        'follow_links',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'published_at' => 'datetime',
         'order' => 'integer',
+        'index_page' => 'boolean',
+        'follow_links' => 'boolean',
     ];
 
     // Eager loading - performance için
@@ -162,5 +178,117 @@ class Blog extends Model implements HasMedia
                     ->get();
             }
         );
+    }
+    
+    /**
+     * SEO: Meta title'ı getir (yoksa başlığı kullan)
+     */
+    public function getMetaTitle(): string
+    {
+        return $this->meta_title ?: $this->title;
+    }
+    
+    /**
+     * SEO: Meta description'ı getir (yoksa excerpt kullan)
+     */
+    public function getMetaDescription(): string
+    {
+        if ($this->meta_description) {
+            return $this->meta_description;
+        }
+        
+        if ($this->excerpt) {
+            return \Str::limit($this->excerpt, 160);
+        }
+        
+        return \Str::limit(strip_tags($this->content), 160);
+    }
+    
+    /**
+     * SEO: OG Title'ı getir (yoksa meta_title veya title kullan)
+     */
+    public function getOgTitle(): string
+    {
+        return $this->og_title ?: $this->getMetaTitle();
+    }
+    
+    /**
+     * SEO: OG Description'ı getir
+     */
+    public function getOgDescription(): string
+    {
+        return $this->og_description ?: $this->getMetaDescription();
+    }
+    
+    /**
+     * SEO: OG Image'ı getir
+     */
+    public function getOgImage(): ?string
+    {
+        if ($this->og_image) {
+            return \Storage::url($this->og_image);
+        }
+        
+        if ($this->thumbnail) {
+            return \Storage::url($this->thumbnail);
+        }
+        
+        $media = $this->getFirstMediaUrl('blog');
+        if ($media) {
+            return $media;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * SEO: Canonical URL'i getir
+     */
+    public function getCanonicalUrl(): string
+    {
+        return $this->canonical_url ?: route('blog.show', $this->slug);
+    }
+    
+    /**
+     * SEO: Robots meta tag'i getir
+     */
+    public function getRobotsTag(): string
+    {
+        $index = $this->index_page ? 'index' : 'noindex';
+        $follow = $this->follow_links ? 'follow' : 'nofollow';
+        
+        return "{$index}, {$follow}";
+    }
+    
+    /**
+     * SEO: Structured Data (JSON-LD) oluştur
+     */
+    public function getStructuredData(): array
+    {
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'BlogPosting',
+            'headline' => $this->title,
+            'description' => $this->getMetaDescription(),
+            'image' => $this->getOgImage(),
+            'author' => [
+                '@type' => 'Person',
+                'name' => $this->author ?: 'Ares Asansör',
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'Ares Asansör',
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => config('app.url') . '/images/logo.png',
+                ],
+            ],
+            'datePublished' => $this->published_at?->toIso8601String(),
+            'dateModified' => $this->updated_at->toIso8601String(),
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => $this->getCanonicalUrl(),
+            ],
+        ];
     }
 }

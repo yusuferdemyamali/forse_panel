@@ -5,8 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BlogResource\Pages;
 use App\Models\Blog;
 use Filament\Forms;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
@@ -133,7 +131,7 @@ class BlogResource extends Resource
                             ->description('Gönderiniz için görsel unsurlar')
                             ->icon('heroicon-o-photo')
                             ->schema([
-                                SpatieMediaLibraryFileUpload::make('thumbnail')
+                                Forms\Components\FileUpload::make('thumbnail')
                                     ->label('Dış Resim')
                                     ->collection('thumbnails')
                                     ->image()
@@ -183,10 +181,6 @@ class BlogResource extends Resource
                                     ])
                                     ->required(),
 
-                                SpatieTagsInput::make('tags')
-                                    ->label('Etiketler')
-                                    ->placeholder('Etiket ekleyin')
-                                    ->helperText('Arama ve filtreleme için virgülle ayrılmış etiketler'),
                                 Forms\Components\TextInput::make('order')
                                     ->label('Sıra')
                                     ->numeric()
@@ -194,6 +188,161 @@ class BlogResource extends Resource
                                     ->maxLength(255)
                                     ->placeholder('Sıra numarasını girin'),
                             ]),
+
+                        Forms\Components\Section::make('🚀 SEO Optimizasyonu')
+                            ->description('Arama motoru optimizasyonu için meta bilgileri düzenleyin')
+                            ->icon('heroicon-o-magnifying-glass')
+                            ->schema([
+                                Forms\Components\Tabs::make('SEO Tabs')
+                                    ->tabs([
+                                        Forms\Components\Tabs\Tab::make('Temel SEO')
+                                            ->icon('heroicon-o-document-text')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('meta_title')
+                                                    ->label('SEO Başlığı')
+                                                    ->maxLength(60)
+                                                    ->placeholder('Google\'da görünecek başlık')
+                                                    ->helperText('Boş bırakılırsa yazı başlığı kullanılır. Maksimum 60 karakter önerilir.')
+                                                    ->live(debounce: 500)
+                                                    ->afterStateUpdated(function (Get $get, Forms\Set $set, ?string $state) {
+                                                        $length = strlen($state ?? '');
+                                                        $color = $length > 60 ? 'danger' : ($length > 50 ? 'warning' : 'success');
+                                                    })
+                                                    ->suffixIcon('heroicon-m-information-circle')
+                                                    ->hint(fn (Get $get): string => 
+                                                        (strlen($get('meta_title') ?? '') ?: 0) . ' / 60 karakter'
+                                                    ),
+                                                
+                                                Forms\Components\Textarea::make('meta_description')
+                                                    ->label('SEO Açıklaması')
+                                                    ->maxLength(160)
+                                                    ->rows(3)
+                                                    ->placeholder('Arama sonuçlarında görünecek kısa açıklama')
+                                                    ->helperText('Boş bırakılırsa özet kullanılır. 155-160 karakter arası optimal.')
+                                                    ->hint(fn (Get $get): string => 
+                                                        (strlen($get('meta_description') ?? '') ?: 0) . ' / 160 karakter'
+                                                    ),
+                                                
+                                                Forms\Components\TextInput::make('focus_keyword')
+                                                    ->label('Odak Anahtar Kelime')
+                                                    ->placeholder('Örn: asansör bakımı')
+                                                    ->helperText('Bu yazının hedeflediği ana anahtar kelime')
+                                                    ->maxLength(255),
+                                                
+                                                Forms\Components\TextInput::make('meta_keywords')
+                                                    ->label('Anahtar Kelimeler (Meta Keywords)')
+                                                    ->placeholder('asansör, bakım, modernizasyon')
+                                                    ->helperText('Virgülle ayırın. Google kullanmıyor ancak diğer arama motorları için faydalı.')
+                                                    ->maxLength(255),
+                                                
+                                                Forms\Components\TextInput::make('canonical_url')
+                                                    ->label('Canonical URL')
+                                                    ->url()
+                                                    ->placeholder('https://aresasansor.com/blog/yaziadi')
+                                                    ->helperText('Boş bırakılırsa otomatik oluşturulur. Duplicate content önleme için kullanılır.')
+                                                    ->maxLength(255),
+                                            ]),
+                                        
+                                        Forms\Components\Tabs\Tab::make('Sosyal Medya (Open Graph)')
+                                            ->icon('heroicon-o-share')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('og_title')
+                                                    ->label('OG Başlığı')
+                                                    ->maxLength(70)
+                                                    ->placeholder('Facebook/LinkedIn paylaşımlarında görünecek başlık')
+                                                    ->helperText('Boş bırakılırsa SEO başlığı kullanılır.')
+                                                    ->hint(fn (Get $get): string => 
+                                                        (strlen($get('og_title') ?? '') ?: 0) . ' / 70 karakter'
+                                                    ),
+                                                
+                                                Forms\Components\Textarea::make('og_description')
+                                                    ->label('OG Açıklaması')
+                                                    ->maxLength(200)
+                                                    ->rows(3)
+                                                    ->placeholder('Sosyal medya paylaşımlarında görünecek açıklama')
+                                                    ->helperText('Boş bırakılırsa meta açıklama kullanılır.')
+                                                    ->hint(fn (Get $get): string => 
+                                                        (strlen($get('og_description') ?? '') ?: 0) . ' / 200 karakter'
+                                                    ),
+                                                
+                                                Forms\Components\FileUpload::make('og_image')
+                                                    ->label('OG Görseli')
+                                                    ->collection('og_images')
+                                                    ->image()
+                                                    ->imageResizeMode('cover')
+                                                    ->imageCropAspectRatio('1.91:1')
+                                                    ->imageResizeTargetWidth('1200')
+                                                    ->imageResizeTargetHeight('630')
+                                                    ->helperText('1200x630 px önerilir. Boş bırakılırsa thumbnail kullanılır.')
+                                                    ->maxSize(2048),
+                                            ]),
+                                        
+                                        Forms\Components\Tabs\Tab::make('Twitter Card')
+                                            ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('twitter_title')
+                                                    ->label('Twitter Başlığı')
+                                                    ->maxLength(70)
+                                                    ->placeholder('Twitter\'da görünecek başlık')
+                                                    ->helperText('Boş bırakılırsa OG başlığı kullanılır.'),
+                                                
+                                                Forms\Components\Textarea::make('twitter_description')
+                                                    ->label('Twitter Açıklaması')
+                                                    ->maxLength(200)
+                                                    ->rows(3)
+                                                    ->placeholder('Twitter\'da görünecek açıklama')
+                                                    ->helperText('Boş bırakılırsa OG açıklaması kullanılır.'),
+                                                
+                                                Forms\Components\FileUpload::make('twitter_image')
+                                                    ->label('Twitter Görseli')
+                                                    ->collection('twitter_images')
+                                                    ->image()
+                                                    ->imageResizeMode('cover')
+                                                    ->imageCropAspectRatio('1.91:1')
+                                                    ->imageResizeTargetWidth('1200')
+                                                    ->imageResizeTargetHeight('628')
+                                                    ->helperText('1200x628 px önerilir. Boş bırakılırsa OG görseli kullanılır.')
+                                                    ->maxSize(2048),
+                                            ]),
+                                        
+                                        Forms\Components\Tabs\Tab::make('Gelişmiş')
+                                            ->icon('heroicon-o-cog-6-tooth')
+                                            ->schema([
+                                                Forms\Components\Toggle::make('index_page')
+                                                    ->label('Sayfayı İndeksle')
+                                                    ->helperText('Arama motorlarının bu sayfayı indekslemesine izin ver')
+                                                    ->default(true)
+                                                    ->inline(false),
+                                                
+                                                Forms\Components\Toggle::make('follow_links')
+                                                    ->label('Linkleri Takip Et')
+                                                    ->helperText('Arama motorlarının bu sayfadaki linkleri takip etmesine izin ver')
+                                                    ->default(true)
+                                                    ->inline(false),
+                                                
+                                                Forms\Components\Placeholder::make('seo_preview')
+                                                    ->label('SEO Önizleme')
+                                                    ->content(fn (Get $get): string => 
+                                                        '<div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: #f9fafb;">
+                                                            <div style="color: #1e40af; font-size: 18px; margin-bottom: 4px;">
+                                                                ' . ($get('meta_title') ?: $get('title') ?: 'Blog Başlığı') . '
+                                                            </div>
+                                                            <div style="color: #059669; font-size: 14px; margin-bottom: 4px;">
+                                                                https://aresasansor.com/blog/' . ($get('slug') ?: 'url') . '
+                                                            </div>
+                                                            <div style="color: #4b5563; font-size: 14px;">
+                                                                ' . Str::limit($get('meta_description') ?: $get('excerpt') ?: 'Meta açıklama burada görünecek...', 160) . '
+                                                            </div>
+                                                        </div>'
+                                                    )
+                                                    ->columnSpanFull(),
+                                            ]),
+                                    ])
+                                    ->columnSpanFull()
+                                    ->persistTabInQueryString(),
+                            ])
+                            ->collapsible()
+                            ->collapsed(),
                     ])
                     ->columnSpan(['lg' => 1]),
             ])
