@@ -1,4 +1,4 @@
-<div class="text-center mt-4">
+<div class="text-center">
     <a href="{{ filament()->getRequestPasswordResetUrl() }}" 
        class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium underline">
         {{ __('Şifremi Unuttum?') }}
@@ -8,6 +8,43 @@
 <style>
 body {
     background: white !important;
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    overflow: hidden;
+}
+
+html,
+body,
+.fi-simple-layout,
+.fi-simple-main-ctn {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+}
+
+.fi-simple-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 1rem;
+    padding-top: calc(1rem + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+}
+
+.fi-simple-main-ctn {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+.fi-simple-main {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 @media screen and (min-width: 1280px) {
@@ -17,7 +54,7 @@ body {
         top: 0;
         left: 100px;
         width: 600px;
-        height: 100vh;
+        height: 100dvh;
         background: url('/images/login-image.jpg?v=3') center center no-repeat;
         background-size: contain;
         z-index: 0;
