@@ -18,13 +18,15 @@ class PageCategoryResource extends Resource
 {
     protected static ?string $model = PageCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-folder';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     protected static ?string $navigationGroup = 'İçerik Yönetimi';
 
-    protected static ?string $navigationLabel = 'Sayfa Kategorileri';
+    protected static ?string $navigationLabel = 'Menü Kategorileri';
 
-    protected static ?string $pluralModelLabel = 'Sayfa Kategorileri';
+    protected static ?string $modelLabel = 'Menü Kategorisi';
+
+    protected static ?string $pluralModelLabel = 'Menü Kategorileri';
 
     protected static ?int $navigationSort = 2;
 
@@ -44,7 +46,7 @@ class PageCategoryResource extends Resource
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('slug')
-                            ->label('URL Slug')
+                            ->label('URL')
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255)

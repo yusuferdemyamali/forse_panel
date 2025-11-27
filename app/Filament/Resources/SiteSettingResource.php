@@ -26,6 +26,10 @@ class SiteSettingResource extends Resource
 
     protected static ?string $navigationLabel = 'Genel Ayarlar';
 
+    protected static ?string $modelLabel = 'Genel Ayar';
+
+    protected static ?string $pluralModelLabel = 'Genel Ayarlar';
+
     public static function getNavigationUrl(): string
     {
         $record = static::getModel()::first();

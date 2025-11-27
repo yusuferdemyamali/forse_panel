@@ -45,7 +45,7 @@ class DashboardStatsOverview extends BaseWidget
             $stats[] = Stat::make('Aktif Blog Yazıları', $activeBlogsCount)
                 ->description("Toplam {$totalBlogs} yazıdan")
                 ->descriptionIcon('heroicon-m-newspaper')
-                ->color('success')
+                ->color('primary')
                 ->url(route('filament.admin.resources.blogs.index'))
                 ->chart([3, 7, $activeBlogsCount]);
         }
@@ -65,7 +65,7 @@ class DashboardStatsOverview extends BaseWidget
             $stats[] = Stat::make('Ürün Kataloğu', $activeProductsCount)
                 ->description("Toplam {$totalProducts} üründen")
                 ->descriptionIcon('heroicon-m-cube')
-                ->color('warning')
+                ->color('primary')
                 ->url(route('filament.admin.resources.products.index'))
                 ->chart([1, 3, $activeProductsCount]);
         }
@@ -79,7 +79,7 @@ class DashboardStatsOverview extends BaseWidget
             $stats[] = Stat::make('Müşteri Referansları', $totalReferences)
                 ->description('Onaylanmış referans')
                 ->descriptionIcon('heroicon-m-star')
-                ->color('gray')
+                ->color('primary')
                 ->url(route('filament.admin.resources.references.index'));
         }
 
@@ -90,7 +90,7 @@ class DashboardStatsOverview extends BaseWidget
             $stats[] = Stat::make('Ekip Üyeleri', $totalTeam)
                 ->description('Aktif ekip üyesi')
                 ->descriptionIcon('heroicon-m-users')
-                ->color('info')
+                ->color('primary')
                 ->url(route('filament.admin.resources.teams.index'));
         }
 
@@ -110,7 +110,7 @@ class DashboardStatsOverview extends BaseWidget
             $stats[] = Stat::make('Bu Ayki Yeni İçerik', $newContentThisMonth)
                 ->description("Yeni içerik eklendi")
                 ->descriptionIcon('heroicon-m-plus-circle')
-                ->color($newContentThisMonth > 0 ? 'success' : 'danger')
+                ->color('primary')
                 ->chart([2, 4, 6, $newContentThisMonth]);
         }
 

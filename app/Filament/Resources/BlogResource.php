@@ -22,6 +22,10 @@ class BlogResource extends Resource
 
     protected static ?string $navigationLabel = 'Blog Yazıları';
 
+    protected static ?string $modelLabel = 'Blog Yazısı';
+
+    protected static ?string $pluralModelLabel = 'Blog Yazıları';
+
     protected static ?string $navigationGroup = 'Blog';
 
     protected static ?int $navigationSort = 1;

@@ -19,9 +19,9 @@ class BlogCategoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Blog Kategorileri';
 
-    protected static ?string $pluralLabel = 'Blog Kategorileri';
+    protected static ?string $modelLabel = 'Blog Kategorisi';
 
-    protected static ?string $label = 'Blog Kategorisi';
+    protected static ?string $pluralModelLabel = 'Blog Kategorileri';
 
     protected static ?string $navigationGroup = 'Blog';
 
@@ -38,7 +38,7 @@ class BlogCategoryResource extends Resource
                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Str::slug($state)) : null)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
-                    ->label('Slug')
+                    ->label('URL')
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),

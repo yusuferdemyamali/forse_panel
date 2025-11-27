@@ -26,6 +26,10 @@ class CompanySettingResource extends Resource
 
     protected static ?string $navigationLabel = 'Firma Ayarları';
 
+    protected static ?string $modelLabel = 'Firma Ayarı';
+
+    protected static ?string $pluralModelLabel = 'Firma Ayarları';
+
     public static function getNavigationUrl(): string
     {
         $record = static::getModel()::first();

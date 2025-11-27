@@ -19,13 +19,15 @@ class ServiceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
     protected static ?string $navigationGroup = 'Hizmetler';
     protected static ?string $navigationLabel = 'Hizmetler';
+    protected static ?string $modelLabel = 'Hizmet';
+    protected static ?string $pluralModelLabel = 'Hizmetler';
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')->required()->maxLength(255),
-            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->maxLength(255),
+            Forms\Components\TextInput::make('name')->label('Hizmet Adı')->required()->maxLength(255),
+            Forms\Components\TextInput::make('slug')->label('URL')->required()->unique(ignoreRecord: true)->maxLength(255),
             Forms\Components\Select::make('service_category_id')
                 ->label('Kategori')
                 ->relationship('serviceCategory', 'name')
@@ -33,11 +35,11 @@ class ServiceResource extends Resource
                 ->required()
                 ->searchable()
                 ->preload(),
-            Forms\Components\RichEditor::make('description')->columnSpanFull(),
-            Forms\Components\TextInput::make('price')->numeric()->prefix('₺')->nullable(),
-            Forms\Components\FileUpload::make('image')->image()->directory('services')->visibility('public')->nullable(),
-            Forms\Components\TextInput::make('order')->numeric()->default(0),
-            Forms\Components\Toggle::make('is_active')->default(true),
+            Forms\Components\RichEditor::make('description')->label('Açıklama')->columnSpanFull(),
+            Forms\Components\TextInput::make('price')->label('Fiyat')->numeric()->prefix('₺')->nullable(),
+            Forms\Components\FileUpload::make('image')->label('Görsel')->image()->directory('services')->visibility('public')->nullable(),
+            Forms\Components\TextInput::make('order')->label('Sıra')->numeric()->default(0),
+            Forms\Components\Toggle::make('is_active')->label('Aktif')->default(true),
         ]);
     }
 

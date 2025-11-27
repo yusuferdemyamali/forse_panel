@@ -18,6 +18,10 @@ class AboutResource extends Resource
 
     protected static ?string $navigationLabel = 'Hakkımızda';
 
+    protected static ?string $modelLabel = 'Hakkımızda';
+
+    protected static ?string $pluralModelLabel = 'Hakkımızda';
+
     protected static ?string $navigationGroup = 'Kurumsal';
 
     protected static ?int $navigationSort = 1;

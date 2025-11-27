@@ -20,6 +20,8 @@ class RedirectResource extends Resource
 
     protected static ?string $navigationLabel = 'Yönlendirmeler';
 
+    protected static ?string $modelLabel = 'Yönlendirme';
+
     protected static ?string $pluralModelLabel = 'Yönlendirmeler';
 
     protected static ?int $navigationSort = 3;

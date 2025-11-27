@@ -9,3 +9,8 @@
 .fi-simple-main-ctn {
     @apply justify-end;
 }
+
+/* Sidebar arka plan rengi */
+.fi-sidebar {
+    background-color: #22c1c3 !important;
+}

@@ -20,6 +20,8 @@ class ContactMessageResource extends Resource
 
     protected static ?string $navigationLabel = 'İletişim Mesajları';
 
+    protected static ?string $modelLabel = 'Mesaj';
+
     protected static ?string $pluralModelLabel = 'Mesajlar';
 
     protected static ?string $navigationGroup = 'İletişim';

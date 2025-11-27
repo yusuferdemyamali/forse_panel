@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\RequestPasswordReset;
+use App\Filament\CustomAvatarProvider;
 use App\Filament\Widgets\ContentDistributionChart;
 use App\Filament\Widgets\ContentGrowthChart;
 use App\Filament\Widgets\DashboardStatsOverview;
@@ -180,7 +181,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('panel5')
             ->login(\App\Filament\Pages\Auth\Login::class)
             ->passwordReset(RequestPasswordReset::class)
             ->colors([
@@ -224,7 +225,16 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/forse_logo.png'))
             ->darkMode(false)
             ->brandLogoHeight('2.5rem')
+            ->defaultAvatarProvider(CustomAvatarProvider::class)
             ->globalSearch(false)
-            ->navigationGroups($allNavigationGroups);
+            ->navigationGroups($allNavigationGroups)
+            ->renderHook(
+                'panels::body.end',
+                fn () => view('filament.admin-styles')
+            )
+            ->renderHook(
+                'panels::user-menu.before',
+                fn () => view('filament.version-badge')
+            );
     }
 }

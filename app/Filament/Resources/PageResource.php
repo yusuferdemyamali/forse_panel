@@ -22,9 +22,11 @@ class PageResource extends Resource
 
     protected static ?string $navigationGroup = 'İçerik Yönetimi';
 
-    protected static ?string $navigationLabel = 'Tüm Sayfalar';
+    protected static ?string $navigationLabel = 'Menüler';
 
-    protected static ?string $pluralModelLabel = 'Tüm Sayfalar';
+    protected static ?string $modelLabel = 'Menü';
+
+    protected static ?string $pluralModelLabel = 'Menüler';
 
     protected static ?int $navigationSort = 1;
 
@@ -47,7 +49,7 @@ class PageResource extends Resource
                                             ->label('Kategori Adı')
                                             ->required(),
                                         Forms\Components\TextInput::make('slug')
-                                            ->label('Slug')
+                                            ->label('URL')
                                             ->required(),
                                     ]),
 
@@ -61,7 +63,7 @@ class PageResource extends Resource
                                     ->maxLength(255),
 
                                 Forms\Components\TextInput::make('slug')
-                                    ->label('URL Slug')
+                                    ->label('URL')
                                     ->required()
                                     ->unique(ignoreRecord: true)
                                     ->maxLength(255)
