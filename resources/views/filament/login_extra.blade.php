@@ -6,11 +6,61 @@
 </div>
 
 <style>
+@font-face {
+    font-family: 'Bahnschrift';
+    src: local('Bahnschrift Light'), local('Bahnschrift');
+    font-weight: 300;
+}
+
 body {
     background: white !important;
     min-height: 100dvh !important;
     height: 100dvh !important;
     overflow: hidden;
+}
+
+/* Email, kullanıcı adı, şifre, beni hatırla yazıları için font */
+.fi-input,
+.fi-input-wrp input,
+.fi-fo-field-wrp label,
+.fi-checkbox-label,
+input::placeholder,
+.fi-fo-field-wrp .fi-input-wrp input,
+.fi-simple-main input,
+.fi-simple-main label,
+.fi-simple-main .fi-checkbox label span,
+.fi-form-component-container label,
+[type="email"],
+[type="password"],
+[type="text"],
+.fi-btn span,
+.fi-simple-main span {
+    font-family: 'Bahnschrift Light', 'Bahnschrift', 'Segoe UI Light', 'Segoe UI', sans-serif !important;
+    font-weight: 300 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Placeholder için ayrıca */
+.fi-simple-main input::placeholder,
+input::placeholder {
+    font-family: 'Bahnschrift Light', 'Bahnschrift', 'Segoe UI Light', 'Segoe UI', sans-serif !important;
+    font-weight: 300 !important;
+}
+
+/* Mobilde "Oturum Aç" başlığını gizle ve yerine "Ver. 5.0" koy */
+@media screen and (max-width: 1279px) {
+    .fi-simple-header-heading {
+        font-size: 0 !important;
+    }
+    
+    .fi-simple-header-heading::after {
+        content: "Ver. 5.0";
+        font-size: 1.5rem;
+        color: #22c1c3;
+        font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
+        font-weight: 300;
+    }
 }
 
 html,
