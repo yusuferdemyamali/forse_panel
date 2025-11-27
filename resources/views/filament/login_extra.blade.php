@@ -84,7 +84,7 @@ body,
 
     .fi-logo {
         position: fixed;
-        right: 330px;
+        right: 300px;
         top: 125px;
         color: cornsilk;
     }
