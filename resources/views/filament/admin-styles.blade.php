@@ -1,205 +1,524 @@
 <style>
-/* Bahnschrift Light fontu */
-@font-face {
-    font-family: 'Bahnschrift';
-    src: local('Bahnschrift Light'), local('Bahnschrift');
-    font-weight: 300;
-    font-style: normal;
+/* ============================================================
+   LEGACY ENTERPRISE ERP/CRM TRANSFORMATION
+   Visual Reference: AdminLTE 2 / Classic Bootstrap 3 (2015 Era)
+   ============================================================ */
+
+/* === TYPOGRAPHY === */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
+body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-size: 14px !important;
+    line-height: 1.42857143 !important;
+    background-color: #ecf0f5 !important;
 }
 
-/* Sidebar arka plan rengi */
+/* === ROUNDED CORNERS REMOVAL === */
+.fi-btn,
+.fi-icon-btn,
+.fi-input-wrp,
+.fi-select,
+.fi-section,
+.fi-section-content-ctn,
+.fi-ta,
+.fi-ta-ctn,
+.fi-wi,
+.fi-modal-window,
+.fi-dropdown-panel,
+.fi-avatar,
+.fi-badge,
+.fi-notification,
+.fi-pagination button,
+.fi-tabs-item,
+button,
+input,
+select,
+textarea {
+    border-radius: 0 !important;
+}
+
+/* === BODY & MAIN BACKGROUND === */
+.fi-body,
+.fi-main,
+.fi-main-ctn {
+    background-color: #ecf0f5 !important;
+}
+
+/* === TOP HEADER === */
+.fi-topbar {
+    background-color: #22c1c3 !important;
+    border-bottom: 1px solid #1ba8aa !important;
+    box-shadow: none !important;
+}
+
+.fi-topbar-item,
+.fi-topbar > nav {
+    background-color: transparent !important;
+}
+
+/* Topbar text white */
+.fi-topbar .fi-dropdown-trigger,
+.fi-topbar button,
+.fi-topbar a,
+.fi-topbar span,
+.fi-topbar svg {
+    color: #ffffff !important;
+}
+
+/* Breadcrumbs */
+.fi-breadcrumbs a,
+.fi-breadcrumbs span,
+.fi-breadcrumbs svg {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 13px !important;
+}
+
+.fi-breadcrumbs a:hover {
+    color: #ffffff !important;
+}
+
+/* === SIDEBAR === */
 .fi-sidebar {
     background-color: #22c1c3 !important;
+    box-shadow: none !important;
 }
 
-/* Sidebar içindeki header (logo alanı) */
 .fi-sidebar-header {
     background-color: #22c1c3 !important;
+    border-bottom: 1px solid #1ba8aa !important;
 }
 
-/* Sidebar navigasyon alanı */
 .fi-sidebar-nav {
     background-color: #22c1c3 !important;
 }
 
-/* Sidebar içerik wrapper */
-.fi-sidebar .fi-sidebar-content,
-aside.fi-sidebar,
-aside[class*="fi-sidebar"] {
-    background-color: #22c1c3 !important;
-}
-
-/* Scrollbar taşma sorununu düzelt */
-.fi-sidebar,
-.fi-sidebar-nav,
-aside.fi-sidebar {
-    overflow-x: hidden !important;
-}
-
-/* Navigasyon linkleri - beyaz renk */
-.fi-sidebar-nav a,
-.fi-sidebar-nav .fi-sidebar-item-label,
-.fi-sidebar-nav .fi-sidebar-item a span,
-.fi-sidebar .fi-sidebar-nav-groups a,
-.fi-sidebar-item-button span,
-.fi-sidebar-item a span {
-    color: white !important;
-    font-family: 'Bahnschrift', 'Segoe UI', sans-serif !important;
-    font-weight: 300 !important;
-}
-
-/* Navigasyon ikonları - beyaz renk */
-.fi-sidebar-nav svg,
-.fi-sidebar-nav .fi-sidebar-item-icon,
-.fi-sidebar-item-button svg,
-.fi-sidebar-item svg,
-.fi-sidebar .fi-sidebar-nav-groups svg {
-    color: white !important;
-}
-
-/* Navigasyon grup başlıkları - beyaz renk ve büyük font */
-.fi-sidebar-group-label,
-.fi-sidebar-nav .fi-sidebar-group button span,
-.fi-sidebar-group-button span {
-    color: white !important;
-    font-size: 0.95rem !important;
-    font-weight: 600 !important;
-}
-
-/* Grup okları - beyaz renk */
-.fi-sidebar-group-button svg,
-.fi-sidebar-group svg {
-    color: white !important;
-}
-
-/* Hover durumunda koyu arka plan ve beyaz yazı */
-.fi-sidebar-nav a:hover,
-.fi-sidebar-item-button:hover {
-    background-color: rgba(0, 0, 0, 0.15) !important;
-}
-
-.fi-sidebar-nav a:hover span,
-.fi-sidebar-nav a:hover svg,
-.fi-sidebar-item-button:hover span,
-.fi-sidebar-item-button:hover svg {
-    color: white !important;
-}
-
-/* Aktif link - biraz daha koyu arka plan */
-.fi-sidebar-item-active,
-.fi-sidebar-item-active a {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.fi-sidebar-item-active span,
-.fi-sidebar-item-active svg {
-    color: white !important;
-}
-
-/* Logo beyaz filtresi */
+/* Sidebar logo white */
 .fi-sidebar-header img,
-.fi-logo img,
-.fi-sidebar .fi-logo img {
+.fi-logo img {
     filter: brightness(0) invert(1) !important;
 }
 
-/* Scrollbar stilleri - sidebar ile uyumlu */
-.fi-sidebar::-webkit-scrollbar,
-.fi-sidebar-nav::-webkit-scrollbar {
-    width: 6px;
-    background-color: #22c1c3;
+/* Sidebar nav items */
+.fi-sidebar-item-button {
+    color: #ffffff !important;
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    border-left: 3px solid transparent !important;
 }
 
-.fi-sidebar::-webkit-scrollbar-track,
-.fi-sidebar-nav::-webkit-scrollbar-track {
-    background-color: #22c1c3;
+.fi-sidebar-item-button span {
+    color: #ffffff !important;
 }
 
-.fi-sidebar::-webkit-scrollbar-thumb,
-.fi-sidebar-nav::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
+.fi-sidebar-item-button svg {
+    color: #ffffff !important;
+    width: 20px !important;
+    height: 20px !important;
 }
 
-.fi-sidebar::-webkit-scrollbar-thumb:hover,
-.fi-sidebar-nav::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+/* Sidebar hover */
+.fi-sidebar-item-button:hover {
+    background-color: rgba(0, 0, 0, 0.15) !important;
+    border-left-color: #ffffff !important;
 }
 
-/* Breadcrumb stilleri */
-.fi-breadcrumbs,
-.fi-breadcrumbs ol,
-.fi-breadcrumbs li,
-.fi-breadcrumbs a,
-.fi-breadcrumbs span {
-    font-size: 1.5rem !important;
+.fi-sidebar-item-button:hover span,
+.fi-sidebar-item-button:hover svg {
+    color: #ffffff !important;
+}
+
+/* Sidebar active - AdminLTE signature */
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border-left: 3px solid #ffffff !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-button span,
+.fi-sidebar-item-active .fi-sidebar-item-button svg {
+    color: #ffffff !important;
+}
+
+/* Sidebar group labels */
+.fi-sidebar-group-button span {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 12px !important;
     font-weight: 600 !important;
-    color: #22c1c3 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
 }
 
-/* Breadcrumb ayırıcı ok */
-.fi-breadcrumbs svg {
-    color: #22c1c3 !important;
+.fi-sidebar-group-button svg {
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
-/* Sayfa başlığı (breadcrumb altındaki title) */
-.fi-header-heading,
-.fi-header h1 {
-    font-size: 1.4rem !important;
-    font-weight: 550 !important;
+/* === CONTENT CARDS / SECTIONS === */
+.fi-section {
+    background-color: #ffffff !important;
+    border: 1px solid #d2d6de !important;
+    border-top: 3px solid #22c1c3 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Sağ üst profil avatarı - tüm olası seçiciler */
+.fi-section-header {
+    background-color: #f4f4f4 !important;
+    border-bottom: 1px solid #d2d6de !important;
+    padding: 10px 15px !important;
+}
+
+.fi-section-header-heading {
+    color: #444444 !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.fi-section-content-ctn {
+    padding: 15px !important;
+    background-color: #ffffff !important;
+}
+
+/* === TABLES === */
+.fi-ta {
+    background-color: #ffffff !important;
+    border: 1px solid #d2d6de !important;
+    border-top: 3px solid #22c1c3 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.fi-ta-header {
+    background-color: #f4f4f4 !important;
+    border-bottom: 1px solid #d2d6de !important;
+    padding: 10px 15px !important;
+}
+
+.fi-ta-header-heading {
+    color: #444444 !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.fi-ta-table th {
+    background-color: #f9f9f9 !important;
+    border-bottom: 2px solid #d2d6de !important;
+    font-weight: 600 !important;
+    color: #333333 !important;
+    font-size: 13px !important;
+    padding: 8px 10px !important;
+}
+
+.fi-ta-table td {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    border-top: 1px solid #f4f4f4 !important;
+    color: #333333 !important;
+}
+
+.fi-ta-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9 !important;
+}
+
+.fi-ta-table tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+.fi-ta-table tbody tr:hover {
+    background-color: #f5f5f5 !important;
+}
+
+/* Table pagination */
+.fi-ta-pagination {
+    background-color: #f9f9f9 !important;
+    border-top: 1px solid #d2d6de !important;
+    padding: 10px 15px !important;
+}
+
+/* === BUTTONS === */
+.fi-btn {
+    border-radius: 0 !important;
+    text-transform: uppercase !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    box-shadow: none !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Primary buttons */
+.fi-btn.fi-color-primary,
+.fi-btn[wire\:loading\.attr="disabled"] {
+    background-color: #22c1c3 !important;
+    border: 1px solid #1ba8aa !important;
+    color: #ffffff !important;
+}
+
+.fi-btn.fi-color-primary:hover {
+    background-color: #1ba8aa !important;
+}
+
+/* Danger buttons */
+.fi-btn.fi-color-danger {
+    background-color: #dd4b39 !important;
+    border: 1px solid #d73925 !important;
+    color: #ffffff !important;
+}
+
+/* Success buttons */
+.fi-btn.fi-color-success {
+    background-color: #00a65a !important;
+    border: 1px solid #008d4c !important;
+    color: #ffffff !important;
+}
+
+/* Gray/Secondary buttons */
+.fi-btn.fi-color-gray {
+    background-color: #f4f4f4 !important;
+    border: 1px solid #ddd !important;
+    color: #444444 !important;
+}
+
+.fi-btn.fi-color-gray:hover {
+    background-color: #e7e7e7 !important;
+}
+
+/* Icon buttons */
+.fi-icon-btn {
+    border-radius: 0 !important;
+}
+
+/* === INPUTS === */
+.fi-input-wrp {
+    border: 1px solid #d2d6de !important;
+    border-radius: 0 !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.fi-input-wrp:focus-within {
+    border-color: #22c1c3 !important;
+    box-shadow: none !important;
+    --tw-ring-color: transparent !important;
+}
+
+.fi-input {
+    font-size: 14px !important;
+    color: #333333 !important;
+}
+
+/* Select inputs */
+.fi-select-input {
+    font-size: 14px !important;
+    color: #333333 !important;
+}
+
+/* Labels */
+.fi-fo-field-wrp-label label {
+    font-weight: 600 !important;
+    color: #333333 !important;
+    font-size: 14px !important;
+}
+
+/* === DROPDOWNS === */
+.fi-dropdown-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #d2d6de !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
+}
+
+.fi-dropdown-list-item {
+    font-size: 14px !important;
+    color: #333333 !important;
+}
+
+.fi-dropdown-list-item:hover {
+    background-color: #f5f5f5 !important;
+}
+
+/* === MODALS === */
+.fi-modal-window {
+    background-color: #ffffff !important;
+    border: 1px solid #d2d6de !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
+}
+
+.fi-modal-header {
+    background-color: #f4f4f4 !important;
+    border-bottom: 1px solid #d2d6de !important;
+}
+
+.fi-modal-footer {
+    background-color: #f4f4f4 !important;
+    border-top: 1px solid #d2d6de !important;
+}
+
+/* === AVATAR === */
 .fi-avatar {
-    --c-50: 34 193 195 !important;
-    --c-400: 34 193 195 !important;
-    --c-600: 34 193 195 !important;
+    border-radius: 0 !important;
     background-color: #22c1c3 !important;
-    background: #22c1c3 !important;
 }
 
-div[class*="fi-avatar"],
-span[class*="fi-avatar"],
-.filament-avatar,
-.fi-user-menu-trigger .fi-avatar,
-[x-data] .fi-avatar,
-.fi-topbar .fi-avatar {
+/* === BADGES === */
+.fi-badge {
+    border-radius: 0 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+}
+
+/* === WIDGETS === */
+.fi-wi {
+    background-color: #ffffff !important;
+    border: 1px solid #d2d6de !important;
+    border-top: 3px solid #22c1c3 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.fi-wi-stats-overview-stat {
+    border-radius: 0 !important;
+    border: 1px solid #d2d6de !important;
+    border-left: 3px solid #22c1c3 !important;
+    background-color: #ffffff !important;
+}
+
+/* === NOTIFICATIONS === */
+.fi-notification {
+    border-radius: 0 !important;
+    border-left: 4px solid #22c1c3 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* === TABS === */
+.fi-tabs {
+    border-bottom: 1px solid #d2d6de !important;
+    background-color: #f9f9f9 !important;
+}
+
+.fi-tabs-item {
+    border-radius: 0 !important;
+    font-size: 14px !important;
+    color: #333333 !important;
+}
+
+.fi-tabs-item:hover {
+    border-bottom: 2px solid #22c1c3 !important;
+}
+
+.fi-tabs-item[aria-selected="true"] {
+    border-bottom: 2px solid #22c1c3 !important;
+    color: #22c1c3 !important;
+    font-weight: 600 !important;
+}
+
+/* === PAGINATION === */
+.fi-pagination-item {
+    border-radius: 0 !important;
+    border: 1px solid #d2d6de !important;
+    background-color: #ffffff !important;
+    color: #333333 !important;
+}
+
+.fi-pagination-item:hover {
+    background-color: #f5f5f5 !important;
+}
+
+.fi-pagination-item[aria-current="page"] {
     background-color: #22c1c3 !important;
-    background: #22c1c3 !important;
+    border-color: #1ba8aa !important;
+    color: #ffffff !important;
 }
 
-/* Avatar inline style override */
-.fi-avatar[style],
-div.fi-avatar[style] {
+/* === FORM ACTIONS === */
+.fi-fo-actions {
+    background-color: #f4f4f4 !important;
+    border-top: 1px solid #d2d6de !important;
+    padding: 15px !important;
+}
+
+/* === CHECKBOX & RADIO === */
+.fi-checkbox-input,
+.fi-radio-input {
+    border-radius: 0 !important;
+    border: 1px solid #d2d6de !important;
+}
+
+.fi-checkbox-input:checked,
+.fi-radio-input:checked {
     background-color: #22c1c3 !important;
-    background: #22c1c3 !important;
+    border-color: #22c1c3 !important;
 }
 
-/* Buton yazı boyutları */
-.fi-btn,
-.fi-btn span,
-.fi-btn-label {
-    font-size: 0.8rem !important;
-    font-weight: 500 !important;
+/* === LINKS === */
+.fi-link {
+    color: #22c1c3 !important;
 }
 
-/* Tarayıcı oturumları bölümü - buton sağa hizalama */
-#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: flex-end;
-    gap: 1rem;
+.fi-link:hover {
+    color: #5dd3d5 !important;
 }
 
-#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn > div:first-child {
-    flex: 1;
+/* === EMPTY STATE === */
+.fi-ta-empty-state {
+    padding: 40px !important;
+    color: #666666 !important;
 }
 
-#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn > div:last-child {
-    flex-shrink: 0;
-    margin-bottom: 0rem;
+/* === PAGE HEADER === */
+.fi-header {
+    margin-bottom: 15px !important;
+}
+
+.fi-header-heading {
+    color: #333333 !important;
+    font-weight: 600 !important;
+}
+
+/* === DARK MODE OVERRIDE === */
+.dark .fi-body,
+.dark .fi-main,
+.dark .fi-main-ctn {
+    background-color: #ecf0f5 !important;
+}
+
+.dark .fi-sidebar {
+    background-color: #22c1c3 !important;
+}
+
+.dark .fi-topbar {
+    background-color: #22c1c3 !important;
+}
+
+.dark .fi-section,
+.dark .fi-ta,
+.dark .fi-wi {
+    background-color: #ffffff !important;
+}
+
+.dark .fi-section-content-ctn,
+.dark .fi-ta-table td,
+.dark .fi-ta-table th {
+    color: #333333 !important;
+}
+
+/* === SIDEBAR SCROLLBAR === */
+.fi-sidebar::-webkit-scrollbar {
+    width: 5px;
+    background-color: #22c1c3;
+}
+
+.fi-sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* === INFOLIST === */
+.fi-in-entry {
+    border-bottom: 1px solid #f4f4f4 !important;
+    padding: 8px 0 !important;
+}
+
+/* === FILTERS === */
+.fi-ta-filters-form {
+    background-color: #f9f9f9 !important;
+    border: 1px solid #d2d6de !important;
+    padding: 15px !important;
 }
 </style>
-
-
-
