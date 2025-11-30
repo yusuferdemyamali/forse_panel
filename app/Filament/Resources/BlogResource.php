@@ -137,15 +137,13 @@ class BlogResource extends Resource
                             ->schema([
                                 Forms\Components\FileUpload::make('thumbnail')
                                     ->label('Dış Resim')
-                                    ->collection('thumbnails')
                                     ->image()
                                     ->imageResizeMode('contain')
                                     ->imageCropAspectRatio('16:9')
                                     ->imageResizeTargetWidth('1200')
                                     ->imageResizeTargetHeight('675')
                                     ->helperText('Bu resim, gönderi listeleme sayfalarında ve sosyal paylaşımlarda belirgin bir şekilde görüntülenecektir (16:9 oranı önerilir)')
-                                    ->downloadable()
-                                    ->responsiveImages(),
+                                    ->downloadable(),
                             ]),
                     ])
                     ->columnSpan(['lg' => 2]),
@@ -271,7 +269,6 @@ class BlogResource extends Resource
                                                 
                                                 Forms\Components\FileUpload::make('og_image')
                                                     ->label('OG Görseli')
-                                                    ->collection('og_images')
                                                     ->image()
                                                     ->imageResizeMode('cover')
                                                     ->imageCropAspectRatio('1.91:1')
@@ -299,7 +296,6 @@ class BlogResource extends Resource
                                                 
                                                 Forms\Components\FileUpload::make('twitter_image')
                                                     ->label('Twitter Görseli')
-                                                    ->collection('twitter_images')
                                                     ->image()
                                                     ->imageResizeMode('cover')
                                                     ->imageCropAspectRatio('1.91:1')

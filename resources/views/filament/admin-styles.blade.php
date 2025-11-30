@@ -243,6 +243,18 @@ textarea {
     letter-spacing: 0.5px !important;
 }
 
+/* Buton gölgelerini tamamen kaldır */
+.fi-btn,
+.fi-btn.shadow-sm,
+.fi-btn[class*="shadow"],
+button.fi-btn,
+.fi-ac-action,
+.fi-ac-btn-action {
+    box-shadow: none !important;
+    --tw-shadow: 0 0 #0000 !important;
+    --tw-shadow-colored: 0 0 #0000 !important;
+}
+
 /* Primary buttons */
 .fi-btn.fi-color-primary,
 .fi-btn[wire\:loading\.attr="disabled"] {
@@ -331,6 +343,26 @@ textarea {
 
 .fi-dropdown-list-item:hover {
     background-color: #f5f5f5 !important;
+    color: #333333 !important;
+}
+
+/* Profil dropdown menüsü - metin renkleri */
+.fi-dropdown-panel *,
+.fi-dropdown-panel a,
+.fi-dropdown-panel button,
+.fi-dropdown-panel span,
+.fi-dropdown-panel div,
+.fi-dropdown-list-item *,
+.fi-user-menu .fi-dropdown-panel *,
+.fi-user-menu .fi-dropdown-list-item * {
+    color: #333333 !important;
+}
+
+.fi-dropdown-list-item:hover *,
+.fi-dropdown-list-item:hover a,
+.fi-dropdown-list-item:hover button,
+.fi-dropdown-list-item:hover span {
+    color: #333333 !important;
 }
 
 /* === MODALS === */
@@ -520,5 +552,54 @@ textarea {
     background-color: #f9f9f9 !important;
     border: 1px solid #d2d6de !important;
     padding: 15px !important;
+}
+
+/* === TARAYICI OTURUMLARI - BUTON HİZALAMA === */
+#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+}
+
+#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn > div:first-child {
+    flex: 1 !important;
+}
+
+#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn > div:last-child {
+    flex-shrink: 0 !important;
+    align-self: flex-start !important;
+}
+
+/* Butonun "Windows - Chrome" ile hizalanması */
+#tarayici-oturumlari .fi-fo-actions {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    background-color: transparent !important;
+    border-top: none !important;
+    padding: 0 !important;
+}
+
+#tarayici-oturumlari .fi-fo-actions .fi-ac {
+    align-items: flex-start !important;
+    padding-top: 7.5rem !important;
+    background-color: transparent !important;
+}
+
+/* Tarayıcı Oturumları butonunun gölgesini kaldır */
+#tarayici-oturumlari .fi-btn,
+#tarayici-oturumlari button {
+    box-shadow: none !important;
+    --tw-shadow: 0 0 #0000 !important;
+    --tw-shadow-colored: 0 0 #0000 !important;
+}
+
+/* Tarayıcı Oturumları sağ kolonunun gri arka planını kaldır */
+#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn > div:last-child {
+    background-color: transparent !important;
+}
+
+#tarayici-oturumlari .fi-section-content .fi-fo-component-ctn > div:last-child > div {
+    background-color: transparent !important;
 }
 </style>

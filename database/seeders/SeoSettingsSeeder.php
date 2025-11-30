@@ -23,15 +23,32 @@ class SeoSettingsSeeder extends Seeder
         
         // MANTIK 1: Direct Property Assignment
         // Settings class'ındaki public property'lere direkt değer atayabiliriz
+        
+        // Temel SEO Ayarları
         $seoSettings->site_name = 'Forse Panel - Kurumsal Web Yönetim Sistemi';
-        
         $seoSettings->site_description = 'Forse Panel ile web sitenizi kolayca yönetin. Modern, hızlı ve güvenli içerik yönetim sistemi.';
+        $seoSettings->site_keywords = null;
+        $seoSettings->site_author = null;
         
-        // Nullable alanlar - başlangıçta boş bırakılabilir
+        // Sosyal Medya (Open Graph)
         $seoSettings->og_image = null; // Kullanıcı admin panelinden yükleyecek
+        $seoSettings->og_type = 'website';
+        $seoSettings->og_locale = 'tr_TR';
         
-        // Google Analytics ID örneği
+        // Twitter Card
+        $seoSettings->twitter_card_type = 'summary_large_image';
+        $seoSettings->twitter_site = null;
+        $seoSettings->twitter_creator = null;
+        
+        // Analytics & Tracking
         $seoSettings->google_analytics_id = 'G-XXXXXXXXXX'; // Gerçek ID ile değiştirilmeli
+        $seoSettings->google_tag_manager_id = null;
+        $seoSettings->facebook_pixel_id = null;
+        
+        // Verification
+        $seoSettings->google_site_verification = null;
+        $seoSettings->bing_site_verification = null;
+        $seoSettings->yandex_verification = null;
         
         // Head Scripts - Google Tag Manager örneği
         $seoSettings->head_scripts = <<<'HTML'
@@ -51,6 +68,13 @@ HTML;
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 HTML;
+        
+        // Footer Scripts
+        $seoSettings->footer_scripts = null;
+        
+        // Robots & Indexing
+        $seoSettings->allow_search_engines = true;
+        $seoSettings->robots_txt_additions = null;
         
         // MANTIK 2: save() metodu ile veritabanına kaydet
         // Bu metod, tüm property'leri 'settings' tablosuna yazar
